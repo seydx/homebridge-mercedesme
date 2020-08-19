@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://i.imgur.com/oDssU74_d.webp?maxwidth=320&shape=thumb&fidelity=medium">
+    <img src="https://i.imgur.com/oDssU74_d.webp?maxwidth=280&shape=thumb&fidelity=medium">
 </p>
 
 
@@ -44,7 +44,7 @@ After [Homebridge](https://github.com/nfarina/homebridge) has been installed:
 5. Choose "Create application" and press "Next" 
 6. Enter **application name** (homebridge) **business purposes** (homebridge-mercedesme) and press "Submit" 
 7. Press "View in console"
-8. Edit "Redirect URLS" and modify "http://localhost" to "http://localhost:**PORTFROMCONFIG**/callback" (replace **PORTFROMCONFIG** with your own port from config.json)
+8. Edit "Redirect URLS" and modify "http://localhost" to "http://localhost:PORTFROMCONFIG/callback" (replace **PORTFROMCONFIG** with your own port from config.json)
 9. Copy your **Client ID** and **Client Secret** and put it in your config.json
 10. Done
  
@@ -102,6 +102,11 @@ See [Example Config](https://github.com/SeydX/homebridge-mercedesme/master/examp
 * `cars.vin` - **required** : Vehicle Identification Number (VIN)
 * `cars.model` - **not required** : Model of the car (Default: Mercedes)
 * `cars.port` - **required** : Server port for authentication process (e.g. 3000)
+
+
+## First start
+
+After starting the plugin, visit "**http://localhost:PORTFROMCONFIG**" (from the device where the plugin is running) and click on "**Start**". If everything works fine, a Token will be generated and stored in your local storage for further access.
 
 
 
