@@ -1,10 +1,12 @@
-<p align="center">
+<p align="left">
     <img src="https://i.imgur.com/oDssU74_d.webp?maxwidth=280&shape=thumb&fidelity=medium">
 </p>
 
 
 
 # MercedesMe Plugin
+
+<img src="https://github.com/SeydX/homebridge-mercedesme/blob/master/images/homekit_mercedesme.gif" align="right" alt="Apple Home">
 
 This dynamic platform plugin allows control of Mercedes Me capable cars. At the moment it is only possible to get information like vehicle status, lock status, fuel status etc. If in the future the possibility of e.g. locking or unlocking the car becomes possible, this will also be implemented.
 
@@ -98,7 +100,7 @@ See [Example Config](https://github.com/SeydX/homebridge-mercedesme/master/examp
 * `polling` - **not required** : Time in seconds for polling Mercedes API (Default: 60s)
 * `cars.name` - **required** : Name of the Accessory (*unique*)
 * `cars.clientID` - **required** : Client ID obtained from https://developer.mercedes-benz.com
-* `cars.clientSecret - **required** : Client Secret obtained from https://developer.mercedes-benz.com
+* `cars.clientSecret` - **required** : Client Secret obtained from https://developer.mercedes-benz.com
 * `cars.vin` - **required** : Vehicle Identification Number (VIN)
 * `cars.model` - **not required** : Model of the car (Default: Mercedes)
 * `cars.port` - **required** : Server port for authentication process (e.g. 3000)
