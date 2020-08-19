@@ -1,5 +1,5 @@
 <p align="left">
-    <img src="https://i.imgur.com/oDssU74_d.webp?maxwidth=280&shape=thumb&fidelity=medium">
+    <img src="https://github.com/SeydX/homebridge-mercedesme/blob/master/images/mercedesme_logo.png">
 </p>
 
 
