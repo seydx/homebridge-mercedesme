@@ -57,7 +57,7 @@
       "description": "Mercedes Me API Polling in seconds",
       "type": "integer",
       "required": false,
-      "placeholder": 60
+      "placeholder": 60,
       "minimum": 60
     }
   }
