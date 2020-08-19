@@ -1,0 +1,64 @@
+{
+  "pluginAlias": "MercedesPlatform",
+  "pluginType": "platform",
+  "singular": true,
+  "headerDisplay": "Go to http://localhost:{port} to authenticate the plugin!",
+  "footerDisplay": "For documentation please see https://github.com/SeydX/homebridge-mercedesme",
+  "schema": {
+    "cars": {
+      "title": "Registered Cars",
+      "required": false,
+      "type": "array",
+      "items": {
+        "name": "Car Config",
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Name",
+            "description": "The name of your car in HomeKit",
+            "type": "string",
+            "required": true
+          },
+          "clientID": {
+            "title": "Client ID",
+            "description": "Client ID from https://developer.mercedes-benz.com/",
+            "type": "string",
+            "required": true
+          },
+          "clientSecret": {
+            "title": "Client Secret",
+            "description": "Client Secret from https://developer.mercedes-benz.com/",
+            "type": "string",
+            "required": true
+          },
+          "vin": {
+            "title": "Vehicle Identification Number (VIN)",
+            "description": "VIN of the car",
+            "type": "string",
+            "required": true
+          },
+          "port": {
+            "title": "Port",
+            "description": "Server port for authentication process",
+            "type": "integer",
+            "required": true
+          },
+          "model": {
+            "title": "Model",
+            "description": "Car model",
+            "type": "string",
+            "required": false
+          } 
+        }
+      }
+    },
+    "polling": {
+      "title": "Polling",
+      "description": "Mercedes Me API Polling in seconds",
+      "type": "integer",
+      "required": false,
+      "placeholder": 60
+      "minimum": 60
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "name": "homebridge-mercedesme",
+  "version": "1.0.0",
+  "description": "homebridge-mercedesme",
+  "main": "index.js",
+  "devDependencies": {},
+  "funding": [
+    {
+      "type": "paypal",
+      "url": "https://paypal.me/seydx"
+    },
+    {
+      "type": "github",
+      "url": "https://github.com/SeydX"
+    }
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SeydX/homebridge-mercedesme.git"
+  },
+  "author": "SeydX (https://github.com/SeydX/homebridge-mercedesme)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SeydX/homebridge-mercedesme/issues"
+  },
+  "homepage": "https://github.com/SeydX/homebridge-mercedesme#readme",
+  "keywords": [
+    "mercedes",
+    "mercedesme",
+    "homebridge",
+    "homebridge-plugin",
+    "smarthome"
+  ],
+  "engines": {
+    "node": "^12.18.3",
+    "homebridge": "^1.1.0"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "node-persist": "^3.1.0",
+    "pug": "^3.0.0",
+    "axios": "^0.19.2",
+    "debug": "^4.1.1"
+  }
+}
