@@ -48,7 +48,9 @@ class lightbulbAccessory {
     let value = []; //0=off 1=on
     
     if(response.length){
+    
       for(const key in response){
+      
         if(response[key].interiorLightsFront && (response[key].interiorLightsFront.value === 'true')){
           
           value.push(1);
@@ -66,6 +68,7 @@ class lightbulbAccessory {
           value.push(1);
           
         }
+        
       }
       
     }

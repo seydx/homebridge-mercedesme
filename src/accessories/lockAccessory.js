@@ -48,7 +48,9 @@ class lockAccessory {
     let value = []; //0=unsecured; 1=secured
     
     if(response.length){
+    
       for(const key in response){
+      
         if(response[key].doorstatusfrontleft && (response[key].doorstatusfrontleft.value === 'false')){
           
           value.push(1);
@@ -66,7 +68,9 @@ class lockAccessory {
           value.push(1);
           
         }
+        
       }
+      
     }
     
     value = value.includes(1) ? 1 : 0;

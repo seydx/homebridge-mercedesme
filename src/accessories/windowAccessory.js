@@ -50,7 +50,9 @@ class windowAccessory {
     let value = []; //0=detected; 1=not detected
     
     if(response.length){
+    
       for(const key in response){
+      
         if(response[key].windowstatusfrontleft && (response[key].windowstatusfrontleft.value === '1')){
           
           value.push(1);
@@ -68,6 +70,7 @@ class windowAccessory {
           value.push(1);
           
         }
+        
       }
       
     }
