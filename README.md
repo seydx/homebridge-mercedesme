@@ -1,4 +1,4 @@
-<p align="left">
+<p align="center">
     <img src="https://github.com/SeydX/homebridge-mercedesme/blob/master/images/mercedesme_logo.png">
 </p>
 
