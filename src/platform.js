@@ -160,7 +160,7 @@ MercedesPlatform.prototype = {
           data: []
         };
         
-        this.pollApi(newAccessory);   
+        this.pollApiVehicle(newAccessory);   
         
         let informationService = newAccessory.getService(this.api.hap.Service.AccessoryInformation);
     
@@ -190,11 +190,14 @@ MercedesPlatform.prototype = {
 
   },
   
-  pollApi: async function(accessory) {
+  pollApiVehicle: async function(accessory) {
     
     try {
       
       let responseVehicle= await this.meApi.vehicleStatus(accessory.context.config.vin);
+      
+      accessory.context.config.data = responseVehicle;
+      
       let responseFuel = await this.meApi.fuelStatus(accessory.context.config.vin);
       
       accessory.context.config.data = responseVehicle.concat(responseFuel);
@@ -207,7 +210,7 @@ MercedesPlatform.prototype = {
       
     } finally {
       
-      setTimeout(this.pollApi.bind(this,accessory), this.config.polling);
+      setTimeout(this.pollApiVehicle.bind(this,accessory), this.config.polling);
       
     }
     
@@ -235,7 +238,7 @@ MercedesPlatform.prototype = {
              
         this.meApi = new meApi(this, accessToken, accessory.context.config);
         
-        this.pollApi(accessory);
+        this.pollApiVehicle(accessory);
         
         new batteryService(this, accessory);
         new lockService(this, accessory);
