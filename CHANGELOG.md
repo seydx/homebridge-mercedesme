@@ -1,6 +1,9 @@
 # Changelog
 
 
+## v1.0.5 - 2020-08-21
+- Avoid reset cached data
+
 ## v1.0.4 - 2020-08-20
 - Separated doors and lock
 
