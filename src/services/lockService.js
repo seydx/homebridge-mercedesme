@@ -21,13 +21,6 @@ class lockService {
 
   getService (accessory) {
   
-    const that = this;
-  
-    accessory.on('identify', function(paired, callback) {
-      that.log(accessory.displayName + ': Identify!!!');
-      callback();
-    });
-    
     let service = accessory.getService(this.api.hap.Service.LockMechanism);
     
     if (!service) {
@@ -36,7 +29,7 @@ class lockService {
     
     service
       .getCharacteristic(this.api.hap.Characteristic.LockTargetState)
-      .on('set', that.setState.bind(this, accessory, service));
+      .on('set', this.setState.bind(this, accessory, service));
       
     this.getState(accessory, service);
 

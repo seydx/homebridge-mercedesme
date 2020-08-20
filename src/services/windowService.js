@@ -20,14 +20,7 @@ class windowService {
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
   getService (accessory) {
-  
-    const that = this;
-  
-    accessory.on('identify', function(paired, callback) {
-      that.log(accessory.displayName + ': Identify!!!');
-      callback();
-    });
-    
+
     let service = accessory.getService(this.api.hap.Service.ContactSensor);
     
     if (!service) {

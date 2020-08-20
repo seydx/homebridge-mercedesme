@@ -21,8 +21,6 @@ class batteryService {
 
   getService (accessory) {
   
-    const that = this;
-
     let service = accessory.getService(this.api.hap.Service.BatteryService);
     
     if (!service) {
@@ -46,13 +44,17 @@ class batteryService {
           
           accessory.context.batteryValue = parseInt(response[key].tanklevelpercent.value);
           
-        } 
+        } else if(response[key].rangeliquid && accessory.context.maxRange) {
+         
+          accessory.context.batteryValue = (100/accessory.context.maxRange) * parseInt(response[key].rangeliquid.value);
+          
+        }
         
       }
       
     }
     
-    accessory.context.batteryState ? accessory.context.batteryState : 0;
+    accessory.context.batteryState = accessory.context.batteryState ? accessory.context.batteryState : 0;
     
     if(accessory.context.batteryValue <= 20)
       accessory.context.batteryState = 1;
