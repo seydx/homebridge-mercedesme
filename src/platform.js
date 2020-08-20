@@ -7,9 +7,10 @@ const meApp = require('../app/app.js');
 const meApi = require('../lib/mercedesme.js');
 const packageFile = require('../package.json');
 
-const lightbulbAccessory = require('./accessories/lightbulbAccessory.js');
-const lockAccessory = require('./accessories/lockAccessory.js');
-const windowAccessory = require('./accessories/windowAccessory.js');
+const batteryService = require('./accessories/batteryService.js');
+const lightbulbService = require('./accessories/lightbulbService.js');
+const lockService = require('./accessories/lockService.js');
+const windowService = require('./accessories/windowService.js');
 
 const pluginName = 'homebridge-mercedesme';
 const platformName = 'MercedesPlatform';
@@ -159,7 +160,7 @@ MercedesPlatform.prototype = {
           data: []
         };
         
-        this.pollApi(newAccessory);
+        this.pollApi(newAccessory);   
         
         let informationService = newAccessory.getService(this.api.hap.Service.AccessoryInformation);
     
@@ -172,10 +173,11 @@ MercedesPlatform.prototype = {
           .setCharacteristic(this.api.hap.Characteristic.Model, newAccessory.context.config.model)
           .setCharacteristic(this.api.hap.Characteristic.SerialNumber, newAccessory.context.config.vin)
           .setCharacteristic(this.api.hap.Characteristic.FirmwareRevision, '1.0');
-              
-        new lockAccessory(this, newAccessory);
-        new windowAccessory(this, newAccessory);
-        new lightbulbAccessory(this, newAccessory);
+        
+        new batteryService(this, newAccessory);
+        new lockService(this, newAccessory);
+        new windowService(this, newAccessory);
+        new lightbulbService(this, newAccessory);
           
       }
       
@@ -192,9 +194,10 @@ MercedesPlatform.prototype = {
     
     try {
       
-      let response = await this.meApi.vehicleStatus(accessory.context.config.vin);
+      let responseVehicle= await this.meApi.vehicleStatus(accessory.context.config.vin);
+      let responseFuel = await this.meApi.fuelStatus(accessory.context.config.vin);
       
-      accessory.context.config.data = response;
+      accessory.context.config.data = responseVehicle.concat(responseFuel);
       
     } catch(error) {
       
@@ -234,9 +237,10 @@ MercedesPlatform.prototype = {
         
         this.pollApi(accessory);
         
-        new lockAccessory(this, accessory);
-        new windowAccessory(this, accessory);
-        new lightbulbAccessory(this, accessory);
+        new batteryService(this, accessory);
+        new lockService(this, accessory);
+        new windowService(this, accessory);
+        new lightbulbService(this, accessory);
         
       }
     
