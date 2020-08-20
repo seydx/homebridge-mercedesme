@@ -1,6 +1,9 @@
 # Changelog
 
 
+## v1.0.4 - 2020-08-20
+- Separated doors and lock
+
 ## v1.0.3 - 2020-08-20
 - Added "fuel state" as battery
 - Refactoring
