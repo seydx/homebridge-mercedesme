@@ -75,7 +75,8 @@ Please setup your config in Config UI X under ```Plugins > Homebridge Mercedes M
           "clientSecret": "d896ct55-c85c-6363-9999-25iu6985mo10",
           "vin": "WDD1234567N123456",
           "model": "Mercedes A200",
-          "port": 3000
+          "port": 3000,
+          "maxRange": 800
         },
         {
           "name": "Mercedes CLA250",
@@ -83,7 +84,8 @@ Please setup your config in Config UI X under ```Plugins > Homebridge Mercedes M
           "clientSecret": "d896ct55-c85c-6363-9999-25iu6985mo10",
           "vin": "WDD1234567N123456",
           "model": "Mercedes B180",
-          "port": 3000
+          "port": 3001,
+          "maxRange": 600
         }
       ]
     }
@@ -104,6 +106,8 @@ See [Example Config](https://github.com/SeydX/homebridge-mercedesme/blob/master/
 * `cars.vin` - **required** : Vehicle Identification Number (VIN)
 * `cars.model` - **not required** : Model of the car (Default: Mercedes)
 * `cars.port` - **required** : Server port for authentication process (e.g. 3000)
+* `cars.maxRange` - **not required** : Maximum distance after full tank load (for calculating range in % for battery state if API doesnt send the percentage)
+
 
 
 ## First start
