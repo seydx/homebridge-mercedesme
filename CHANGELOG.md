@@ -1,6 +1,11 @@
 # Changelog
 
 
+## v1.0.3 - 2020-08-20
+- Added "fuel state" as battery
+- Refactoring
+- Bugfixes
+
 ## v1.0.2 - 2020-08-20
 - Better debugging
 
