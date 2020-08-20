@@ -24,7 +24,7 @@ class lockService {
     let service = accessory.getService(this.api.hap.Service.LockMechanism);
     
     if (!service) {
-      service = accessory.addService(this.api.hap.Service.LockMechanism, 'Doors', 'lock');
+      service = accessory.addService(this.api.hap.Service.LockMechanism, 'Lock', 'lock');
     }
     
     service
@@ -46,23 +46,15 @@ class lockService {
     
       for(const key in response){
       
-        if(response[key].doorstatusfrontleft && (response[key].doorstatusfrontleft.value === 'false')){
+        if(response[key].doorlockstatusdecklid && (response[key].doorlockstatusdecklid.value === 'false')){
           
           value.push(1);
           
-        } else if(response[key].doorstatusfrontright && (response[key].doorstatusfrontright.value === 'false')){
+        } else if(response[key].doorlockstatusvehicle && (response[key].doorlockstatusvehicle.value === '1' || response[key].doorlockstatusvehicle.value === '2')){
           
           value.push(1);
           
-        } else if(response[key].doorstatusrearleft && (response[key].doorstatusrearleft.value === 'false')){
-          
-          value.push(1);
-          
-        } else if(response[key].doorstatusrearright && (response[key].doorstatusrearright.value === 'false')){
-          
-          value.push(1);
-          
-        } else if(response[key].decklidstatus && (response[key].decklidstatus.value === 'false')){
+        } else if(response[key].doorlockstatusgas && (response[key].doorlockstatusgas.value === 'false')){
           
           value.push(1);
           
@@ -89,6 +81,8 @@ class lockService {
     setTimeout(function(){
       service.getCharacteristic(that.api.hap.Characteristic.LockTargetState).updateValue(value?0:1);
       service.getCharacteristic(that.api.hap.Characteristic.LockCurrentState).updateValue(value?0:1);
+      
+      accessory.context.lockValue = value ? 0 : 1;
       
     }, 500);
         

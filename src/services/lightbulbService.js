@@ -83,7 +83,11 @@ class lightbulbService {
     this.log(accessory.displayName + ': Can not change light state. Not supported at the moment!');
         
     setTimeout(function(){
+      
       service.getCharacteristic(that.api.hap.Characteristic.On).updateValue(value?false:true);   
+      
+      accessory.context.lightValue = value ? false : true;
+      
     }, 500);
     
     service.getCharacteristic(this.api.hap.Characteristic.On).updateValue(value);

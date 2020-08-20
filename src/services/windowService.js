@@ -21,7 +21,7 @@ class windowService {
 
   getService (accessory) {
 
-    let service = accessory.getService(this.api.hap.Service.ContactSensor);
+    let service = accessory.getService('Windows');
     
     if (!service) {
       service = accessory.addService(this.api.hap.Service.ContactSensor, 'Windows', 'window');
@@ -36,7 +36,7 @@ class windowService {
     this.getState(accessory, service);
 
   }
-  
+
   getState (accessory, service){ 
     
     let response = accessory.context.config.data;
