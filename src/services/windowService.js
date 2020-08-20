@@ -49,6 +49,8 @@ class windowService {
     let response = accessory.context.config.data;
     let value = []; //0=detected; 1=not detected
     
+    accessory.context.windowValue = accessory.context.windowValue ? accessory.context.windowValue : 0;
+    
     if(response.length){
     
       for(const key in response){
@@ -79,9 +81,9 @@ class windowService {
       
     }
     
-    value = value.includes(1) ? 1 : 0;
+    accessory.context.windowValue = value.includes(1) ? 1 : 0;
     
-    service.getCharacteristic(this.api.hap.Characteristic.ContactSensorState).updateValue(value);
+    service.getCharacteristic(this.api.hap.Characteristic.ContactSensorState).updateValue(accessory.context.windowValue);
     
     setTimeout(this.getState.bind(this, accessory, service), 5000);
     

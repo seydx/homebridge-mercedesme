@@ -36,7 +36,7 @@ class batteryService {
   getState (accessory, service){ 
     
     let response = accessory.context.config.data;
-    let value = 100; //%
+    accessory.context.batteryValue = accessory.context.batteryValue ? accessory.context.batteryValue : 100;
     
     if(response.length){
     
@@ -44,7 +44,7 @@ class batteryService {
       
         if(response[key].tanklevelpercent){
           
-          value = parseInt(response[key].tanklevelpercent.value);
+          accessory.context.batteryValue = parseInt(response[key].tanklevelpercent.value);
           
         } 
         
@@ -52,14 +52,14 @@ class batteryService {
       
     }
     
-    let status = 0;
+    accessory.context.batteryState ? accessory.context.batteryState : 0;
     
-    if(value <= 20)
-      status = 1;
+    if(accessory.context.batteryValue <= 20)
+      accessory.context.batteryState = 1;
     
-    service.getCharacteristic(this.api.hap.Characteristic.BatteryLevel).updateValue(value);
+    service.getCharacteristic(this.api.hap.Characteristic.BatteryLevel).updateValue(accessory.context.batteryValue);
     service.getCharacteristic(this.api.hap.Characteristic.ChargingState).updateValue(0);
-    service.getCharacteristic(this.api.hap.Characteristic.StatusLowBattery).updateValue(status);
+    service.getCharacteristic(this.api.hap.Characteristic.StatusLowBattery).updateValue(accessory.context.batteryState);
     
     
     setTimeout(this.getState.bind(this, accessory, service), 5000);

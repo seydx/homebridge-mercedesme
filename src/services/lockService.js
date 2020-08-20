@@ -47,6 +47,8 @@ class lockService {
     let response = accessory.context.config.data;
     let value = []; //0=unsecured; 1=secured
     
+    accessory.context.lockValue = accessory.context.lockValue ? accessory.context.lockValue : 1;
+    
     if(response.length){
     
       for(const key in response){
@@ -77,9 +79,9 @@ class lockService {
       
     }
     
-    value = value.includes(1) ? 1 : 0;
-    service.getCharacteristic(this.api.hap.Characteristic.LockCurrentState).updateValue(value);
-    service.getCharacteristic(this.api.hap.Characteristic.LockTargetState).updateValue(value);
+    accessory.context.lockValue = value.includes(1) ? 1 : 0;
+    service.getCharacteristic(this.api.hap.Characteristic.LockCurrentState).updateValue(accessory.context.lockValue);
+    service.getCharacteristic(this.api.hap.Characteristic.LockTargetState).updateValue(accessory.context.lockValue);
     
     setTimeout(this.getState.bind(this, accessory, service), 5000);
   

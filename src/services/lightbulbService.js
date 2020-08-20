@@ -47,6 +47,8 @@ class lightbulbService {
     let response = accessory.context.config.data;
     let value = []; //0=off 1=on
     
+    accessory.context.lightValue = accessory.context.lightValue ? accessory.context.lightValue : 0;
+    
     if(response.length){
     
       for(const key in response){
@@ -73,9 +75,9 @@ class lightbulbService {
       
     }
     
-    value = value.includes(1) ? 1 : 0;
+    accessory.context.lightValue = value.includes(1) ? 1 : 0;
     
-    service.getCharacteristic(this.api.hap.Characteristic.On).updateValue(value);
+    service.getCharacteristic(this.api.hap.Characteristic.On).updateValue(accessory.context.lightValue);
 
     setTimeout(this.getState.bind(this, accessory, service), 5000);
     
