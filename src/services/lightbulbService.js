@@ -37,7 +37,7 @@ class lightbulbService {
   
   getState (accessory, service){ 
     
-    let response = accessory.context.config.data;
+    let response = accessory.context.config.vehicleData;
     let value = []; //0=off 1=on
     
     accessory.context.lightValue = accessory.context.lightValue ? accessory.context.lightValue : 0;

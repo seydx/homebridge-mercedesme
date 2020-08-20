@@ -39,7 +39,7 @@ class lockService {
   
   getState (accessory, service){ 
     
-    let response = accessory.context.config.data;
+    let response = accessory.context.config.vehicleData;
     let value = []; //0=detected; 1=not detected
     
     accessory.context.doorValue = accessory.context.doorValue ? accessory.context.doorValue : 0;
@@ -48,25 +48,25 @@ class lockService {
     
       for(const key in response){
       
-        if(response[key].doorstatusfrontleft && (response[key].doorstatusfrontleft.value === 'false')){
+        if(response[key].doorstatusfrontleft && (response[key].doorstatusfrontleft.value === 'true')){
           
-          value.push(0);
+          value.push(1);
           
-        } else if(response[key].doorstatusfrontright && (response[key].doorstatusfrontright.value === 'false')){
+        } else if(response[key].doorstatusfrontright && (response[key].doorstatusfrontright.value === 'true')){
           
-          value.push(0);
+          value.push(1);
           
-        } else if(response[key].doorstatusrearleft && (response[key].doorstatusrearleft.value === 'false')){
+        } else if(response[key].doorstatusrearleft && (response[key].doorstatusrearleft.value === 'true')){
           
-          value.push(0);
+          value.push(1);
           
-        } else if(response[key].doorstatusrearright && (response[key].doorstatusrearright.value === 'false')){
+        } else if(response[key].doorstatusrearright && (response[key].doorstatusrearright.value === 'true')){
           
-          value.push(0);
+          value.push(1);
           
         } else if(response[key].decklidstatus && (response[key].decklidstatus.value === 'false')){
           
-          value.push(0);
+          value.push(1);
           
         }
         

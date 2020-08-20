@@ -33,7 +33,7 @@ class batteryService {
   
   getState (accessory, service){ 
     
-    let response = accessory.context.config.data;
+    let response = accessory.context.config.fuelData;
     accessory.context.batteryValue = accessory.context.batteryValue ? accessory.context.batteryValue : 100;
     
     if(response.length){

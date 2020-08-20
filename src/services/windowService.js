@@ -39,7 +39,7 @@ class windowService {
 
   getState (accessory, service){ 
     
-    let response = accessory.context.config.data;
+    let response = accessory.context.config.vehicleData;
     let value = []; //0=detected; 1=not detected
     
     accessory.context.windowValue = accessory.context.windowValue ? accessory.context.windowValue : 0;

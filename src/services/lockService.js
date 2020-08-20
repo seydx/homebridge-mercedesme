@@ -37,7 +37,7 @@ class lockService {
   
   getState (accessory, service){ 
     
-    let response = accessory.context.config.data;
+    let response = accessory.context.config.lockData;
     let value = []; //0=unsecured; 1=secured
     
     accessory.context.lockValue = accessory.context.lockValue ? accessory.context.lockValue : 1;

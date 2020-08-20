@@ -174,13 +174,13 @@ MercedesPlatform.prototype = {
     try {
       
       let data = await this.meApi.lockStatus(accessory.context.config.vin); 
-      accessory.context.config.data = data;
+      accessory.context.config.lockData = data;
       
       let dataVehicle = await this.meApi.vehicleStatus(accessory.context.config.vin);
-      accessory.context.config.data = data.concat(dataVehicle);
+      accessory.context.config.vehicleData = dataVehicle;
       
       let dataFuel = await this.meApi.fuelStatus(accessory.context.config.vin);
-      accessory.context.config.data = data.concat(dataFuel);
+      accessory.context.config.fuelData = dataFuel;
       
     } catch(error) {
       
@@ -216,7 +216,9 @@ MercedesPlatform.prototype = {
           vin: configAccessory.vin,
           model: configAccessory.model || 'Mercedes',
           maxRange: configAccessory.maxRange,
-          data: []
+          lockData: [],
+          vehicleData: [],
+          fuelData: []
         };
         
         this.configure(newAccessory);
@@ -246,6 +248,9 @@ MercedesPlatform.prototype = {
           inConfig = true;
           accessory.context.model = this.config.cars[car].model;
           accessory.context.maxRange = this.config.cars[car].maxRange;
+          accessory.context.config.lockData = accessory.context.config.lockData || [];
+          accessory.context.config.vehicleData = accessory.context.config.vehicleData || [];
+          accessory.context.config.fuelData = accessory.context.config.fuelData || [];
         }
       }
           
