@@ -64,7 +64,7 @@ class lockService {
           
           value.push(1);
           
-        } else if(response[key].decklidstatus && (response[key].decklidstatus.value === 'false')){
+        } else if(response[key].decklidstatus && (response[key].decklidstatus.value === 'true')){
           
           value.push(1);
           
