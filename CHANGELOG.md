@@ -1,6 +1,9 @@
 # Changelog
 
 
+## v1.0.6 - 2020-08-21
+- Fixed typo (doors)
+
 ## v1.0.5 - 2020-08-21
 - Avoid reset cached data
 
