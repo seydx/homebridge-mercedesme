@@ -16,7 +16,8 @@
           "clientSecret": "d896ct55-c85c-6363-9999-25iu6985mo10",
           "vin": "WDD1234567N123456",
           "model": "Mercedes A200",
-          "port": 3000
+          "port": 3000,
+          "maxRange": 800
         },
         {
           "name": "Mercedes CLA250",
@@ -24,7 +25,8 @@
           "clientSecret": "d896ct55-c85c-6363-9999-25iu6985mo10",
           "vin": "WDD1234567N123456",
           "model": "Mercedes B180",
-          "port": 3000
+          "port": 3001,
+          "maxRange": 600
         }
       ]
     }
