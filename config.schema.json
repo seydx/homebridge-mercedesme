@@ -48,6 +48,12 @@
             "description": "Car model",
             "type": "string",
             "required": false
+          },
+          "maxRange": {
+            "title": "Max Range",
+            "description": "Maximum distance after full tank load",
+            "type": "integer",
+            "required": false
           } 
         }
       }
