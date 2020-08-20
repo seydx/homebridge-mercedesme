@@ -8,7 +8,7 @@
 
 <img src="https://github.com/SeydX/homebridge-mercedesme/blob/master/images/homekit_mercedesme.gif" align="right" alt="Apple Home">
 
-This dynamic platform plugin allows control of Mercedes Me capable cars. At the moment it is only possible to get information like vehicle status, lock status, fuel status etc. If in the future the possibility of e.g. locking or unlocking the car becomes possible, this will also be implemented.
+This dynamic platform plugin allows control of **Mercedes Me** capable cars. At the moment it is only possible to get information like vehicle status, lock status, fuel status etc. If in the future the possibility of e.g. locking or unlocking the car becomes possible, this will also be implemented.
 
 Any system capable of running [Homebridge](https://github.com/nfarina/homebridge/) can be used to run **homebridge-mercedesme**. The only need is Mercedes Me capable car.
 
@@ -37,16 +37,16 @@ After [Homebridge](https://github.com/nfarina/homebridge) has been installed:
 
 
 
-## First steps
+## First steps (obtain Client ID and Client Secret)
 
 1. In order to use this plugin, you must first log in with your Mercedes Me account on https://developer.mercedes-benz.com
-2. After logging in, go to https://developer.mercedes-benz.com/products/vehicle_status/ and click on "Subscribe" 
-3. Select "Bring your own car" and press "Next" 
-4. Select "Standard" and press "Next"
-5. Choose "Create application" and press "Next" 
-6. Enter **application name** (homebridge) **business purposes** (homebridge-mercedesme) and press "Submit" 
-7. Press "View in console"
-8. Edit "Redirect URLS" and modify "http://localhost" to "http://localhost:PORTFROMCONFIG/callback" (replace **PORTFROMCONFIG** with your own port from config.json)
+2. After logging in, go to https://developer.mercedes-benz.com/products/vehicle_status/ and click on **Subscribe**
+3. Select **Bring your own car** and press **Next**
+4. Select **Standard** and press **Next**
+5. Choose **Create application** and press **Next**
+6. Enter **Application Name** (e.g. Homebridge) **Business Purposes** (e.g. homebridge-mercedesme) and press **Submit**
+7. Press **View in console**
+8. Edit **Redirect URLS** and modify "http://localhost" to "http://localhost:PORTFROMCONFIG/callback" (replace **PORTFROMCONFIG** with your own port from config.json)
 9. Copy your **Client ID** and **Client Secret** and put it in your config.json
 10. Done
  
@@ -90,7 +90,7 @@ Please setup your config in Config UI X under ```Plugins > Homebridge Mercedes M
   ]
 }
 ```
-See [Example Config](https://github.com/SeydX/homebridge-mercedesme/master/example-config.json) for more details.
+See [Example Config](https://github.com/SeydX/homebridge-mercedesme/blob/master/example-config.json) for more details.
 
 
 
@@ -108,7 +108,7 @@ See [Example Config](https://github.com/SeydX/homebridge-mercedesme/master/examp
 
 ## First start
 
-After starting the plugin, visit "**http://localhost:PORTFROMCONFIG**" (from the device where the plugin is running) and click on "**Start**". If everything works fine, a Token will be generated and stored in your local storage for further access.
+After starting the plugin, visit "**http://localhost:PORTFROMCONFIG**" (from the device where the plugin is running) and click on **Start**. Login screen from mercedes should pop up and after logging in and granting access a Token will be generated and stored in your local storage for further access.
 
 
 
