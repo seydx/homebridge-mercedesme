@@ -10,6 +10,7 @@ const packageFile = require('../package.json');
 const batteryService = require('./services/batteryService.js');
 const lightbulbService = require('./services/lightbulbService.js');
 const lockService = require('./services/lockService.js');
+const doorService = require('./services/doorService.js');
 const windowService = require('./services/windowService.js');
 
 const pluginName = 'homebridge-mercedesme';
@@ -162,6 +163,7 @@ MercedesPlatform.prototype = {
 
     new batteryService(this, accessory);
     new lockService(this, accessory);
+    new doorService(this, accessory);
     new windowService(this, accessory);
     new lightbulbService(this, accessory);
     
@@ -171,13 +173,14 @@ MercedesPlatform.prototype = {
     
     try {
       
-      let responseVehicle= await this.meApi.vehicleStatus(accessory.context.config.vin);
+      let data = await this.meApi.lockStatus(accessory.context.config.vin); 
+      accessory.context.config.data = data;
       
-      accessory.context.config.data = responseVehicle;
+      let dataVehicle = await this.meApi.vehicleStatus(accessory.context.config.vin);
+      accessory.context.config.data = data.concat(dataVehicle);
       
-      let responseFuel = await this.meApi.fuelStatus(accessory.context.config.vin);
-      
-      accessory.context.config.data = responseVehicle.concat(responseFuel);
+      let dataFuel = await this.meApi.fuelStatus(accessory.context.config.vin);
+      accessory.context.config.data = data.concat(dataFuel);
       
     } catch(error) {
       
