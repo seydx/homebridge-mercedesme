@@ -69,6 +69,10 @@ class windowAccessory {
           
           value.push(1);
           
+        } else if(response[key].sunroofstatus && (response[key].sunroofstatus.value !== '0')){
+          
+          value.push(1);
+          
         }
         
       }
