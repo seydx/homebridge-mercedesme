@@ -7,10 +7,10 @@ const meApp = require('../app/app.js');
 const meApi = require('../lib/mercedesme.js');
 const packageFile = require('../package.json');
 
-const batteryService = require('./accessories/batteryService.js');
-const lightbulbService = require('./accessories/lightbulbService.js');
-const lockService = require('./accessories/lockService.js');
-const windowService = require('./accessories/windowService.js');
+const batteryService = require('./services/batteryService.js');
+const lightbulbService = require('./services/lightbulbService.js');
+const lockService = require('./services/lockService.js');
+const windowService = require('./services/windowService.js');
 
 const pluginName = 'homebridge-mercedesme';
 const platformName = 'MercedesPlatform';
@@ -136,6 +136,61 @@ MercedesPlatform.prototype = {
     }
   
   },
+  
+  configure: function(accessory) {
+    
+    const that = this;
+  
+    accessory.on('identify', function(paired, callback) {
+      that.log(accessory.displayName + ': Identify!!!');
+      callback();
+    });
+    
+    let informationService = accessory.getService(this.api.hap.Service.AccessoryInformation);
+    
+    if(!informationService){
+      informationService = accessory.addService(this.api.Service.AccessoryInformation);
+    }
+    
+    informationService
+      .setCharacteristic(this.api.hap.Characteristic.Manufacturer, 'Mercedes')
+      .setCharacteristic(this.api.hap.Characteristic.Model, accessory.context.config.model)
+      .setCharacteristic(this.api.hap.Characteristic.SerialNumber, accessory.context.config.vin)
+      .setCharacteristic(this.api.hap.Characteristic.FirmwareRevision, '1.0');
+          
+    this.pollApi(accessory);   
+
+    new batteryService(this, accessory);
+    new lockService(this, accessory);
+    new windowService(this, accessory);
+    new lightbulbService(this, accessory);
+    
+  },
+  
+  pollApi: async function(accessory) {
+    
+    try {
+      
+      let responseVehicle= await this.meApi.vehicleStatus(accessory.context.config.vin);
+      
+      accessory.context.config.data = responseVehicle;
+      
+      let responseFuel = await this.meApi.fuelStatus(accessory.context.config.vin);
+      
+      accessory.context.config.data = responseVehicle.concat(responseFuel);
+      
+    } catch(error) {
+      
+      error = this.meApi.errorHandler(accessory.context.config, 'Vehicle Status', error);
+      this.log(error);
+      
+    } finally {
+      
+      setTimeout(this.pollApi.bind(this,accessory), this.config.polling);
+      
+    }
+    
+  },
 
   addAccessory: async function(configAccessory){
     
@@ -157,27 +212,11 @@ MercedesPlatform.prototype = {
           clientSecret: configAccessory.clientSecret,
           vin: configAccessory.vin,
           model: configAccessory.model || 'Mercedes',
+          maxRange: configAccessory.maxRange,
           data: []
         };
         
-        this.pollApiVehicle(newAccessory);   
-        
-        let informationService = newAccessory.getService(this.api.hap.Service.AccessoryInformation);
-    
-        if(!informationService){
-          informationService = newAccessory.addService(this.api.Service.AccessoryInformation);
-        }
-    
-        informationService
-          .setCharacteristic(this.api.hap.Characteristic.Manufacturer, 'Mercedes')
-          .setCharacteristic(this.api.hap.Characteristic.Model, newAccessory.context.config.model)
-          .setCharacteristic(this.api.hap.Characteristic.SerialNumber, newAccessory.context.config.vin)
-          .setCharacteristic(this.api.hap.Characteristic.FirmwareRevision, '1.0');
-        
-        new batteryService(this, newAccessory);
-        new lockService(this, newAccessory);
-        new windowService(this, newAccessory);
-        new lightbulbService(this, newAccessory);
+        this.configure(newAccessory);
           
       }
       
@@ -189,32 +228,6 @@ MercedesPlatform.prototype = {
     }
 
   },
-  
-  pollApiVehicle: async function(accessory) {
-    
-    try {
-      
-      let responseVehicle= await this.meApi.vehicleStatus(accessory.context.config.vin);
-      
-      accessory.context.config.data = responseVehicle;
-      
-      let responseFuel = await this.meApi.fuelStatus(accessory.context.config.vin);
-      
-      accessory.context.config.data = responseVehicle.concat(responseFuel);
-      
-    } catch(error) {
-      
-      this.log(accessory.displayName + ': An error occured!');
-      error = this.meApi.errorHandler(accessory.context.config, 'Vehicle Status', error);
-      this.log(error);
-      
-    } finally {
-      
-      setTimeout(this.pollApiVehicle.bind(this,accessory), this.config.polling);
-      
-    }
-    
-  },
 
   configureAccessory: async function(accessory){
     
@@ -225,9 +238,13 @@ MercedesPlatform.prototype = {
       
       let inConfig = false;
       
-      for(const car in this.config.cars)
-        if(accessory.displayName === this.config.cars[car].name)
+      for(const car in this.config.cars){
+        if(accessory.displayName === this.config.cars[car].name){
           inConfig = true;
+          accessory.context.model = this.config.cars[car].model;
+          accessory.context.maxRange = this.config.cars[car].maxRange;
+        }
+      }
           
       if(inConfig){
         
@@ -238,12 +255,7 @@ MercedesPlatform.prototype = {
              
         this.meApi = new meApi(this, accessToken, accessory.context.config);
         
-        this.pollApiVehicle(accessory);
-        
-        new batteryService(this, accessory);
-        new lockService(this, accessory);
-        new windowService(this, accessory);
-        new lightbulbService(this, accessory);
+        this.configure(accessory);
         
       }
     
