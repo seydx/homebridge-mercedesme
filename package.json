@@ -1,6 +1,6 @@
 {
   "name": "homebridge-mercedesme",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "homebridge-mercedesme",
   "main": "index.js",
   "devDependencies": {},
