@@ -127,6 +127,12 @@ This plugin has been verified to work with the following apps on iOS 14:
 
 
 
+## TODO
+- [ ] Doors as contact service
+- [ ] Vehicle Lock as Lock service
+
+
+
 ## Troubleshooting
 
 If you have any issues with the plugin, you can run homebridge in debug mode, which will provide some additional information. This might be useful for debugging issues.
