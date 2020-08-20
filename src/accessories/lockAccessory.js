@@ -67,6 +67,10 @@ class lockAccessory {
           
           value.push(1);
           
+        } else if(response[key].decklidstatus && (response[key].decklidstatus.value === 'false')){
+          
+          value.push(1);
+          
         }
         
       }
