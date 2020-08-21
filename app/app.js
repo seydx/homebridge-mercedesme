@@ -77,8 +77,8 @@ class MeApp {
       
       app.get('/auth', (req, res) => {
       
-        debug(this.config.name + ': GET auth.html');
-        debug(this.config.name + ': Redirect to ' + authorizationUri);
+        debug(this.config.name + ': [GET] /auth.html');
+        debug(this.config.name + ': [REDIRECT] to ' + authorizationUri);
       
         res.redirect(authorizationUri);
         
@@ -86,7 +86,7 @@ class MeApp {
     
       app.get('/callback', async (req, res) => {
       
-        debug(this.config.name + ': GET callback.html');
+        debug(this.config.name + ': [GET] /callback.html');
       
         const { code } = req.query;
         
@@ -117,11 +117,12 @@ class MeApp {
           reject(error.message);
           
         }
+        
       });
       
       app.get('/', (req, res) => {
       
-        debug(this.config.name + ': GET index.html');
+        debug(this.config.name + ': [GET] /index.html');
       
         res.render('index');
         

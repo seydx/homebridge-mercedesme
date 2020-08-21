@@ -21,6 +21,8 @@ class lightbulbService {
 
   getService (accessory) {
     
+    const that = this;
+    
     let service = accessory.getService(this.api.hap.Service.Lightbulb);
     
     if (!service) {
@@ -29,7 +31,10 @@ class lightbulbService {
     
     service
       .getCharacteristic(this.api.hap.Characteristic.On)
-      .on('set', this.setState.bind(this, accessory, service));
+      .on('set', this.setState.bind(this, accessory, service))
+      .on('change', function(value) {
+        that.log(accessory.displayName + ': Front/Rear light ' + (value?'on':'off'));
+      });
       
     this.getState(accessory, service);
 

@@ -20,6 +20,8 @@ class lockService {
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
   getService (accessory) {
+    
+    const that = this;
   
     let service = accessory.getService('Doors');
     
@@ -31,6 +33,7 @@ class lockService {
       .getCharacteristic(this.api.hap.Characteristic.ContactSensorState)
       .on('change', function(value) {
         accessory.context.doorOldValue = value.oldValue;
+        that.log(accessory.displayName + ': Door(s)/Car trunk ' + (value?'opened':'closed'));
       });
       
     this.getState(accessory, service);

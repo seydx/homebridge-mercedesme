@@ -20,6 +20,8 @@ class lockService {
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
   getService (accessory) {
+    
+    const that = this;
   
     let service = accessory.getService(this.api.hap.Service.LockMechanism);
     
@@ -30,6 +32,12 @@ class lockService {
     service
       .getCharacteristic(this.api.hap.Characteristic.LockTargetState)
       .on('set', this.setState.bind(this, accessory, service));
+    
+    service
+      .getCharacteristic(this.api.hap.Characteristic.LockCurrentState)
+      .on('change', function(value) {
+        that.log(accessory.displayName + ': Vehicle/Car trunk lock ' + (value?'secured':'unsecured'));
+      });
       
     this.getState(accessory, service);
 

@@ -45,7 +45,7 @@ class batteryService {
           accessory.context.batteryValue = parseInt(response[key].tanklevelpercent.value);
           
         } else if(response[key].rangeliquid && accessory.context.maxRange) {
-         
+          
           accessory.context.batteryValue = (100/accessory.context.maxRange) * parseInt(response[key].rangeliquid.value);
           
         }
@@ -56,8 +56,13 @@ class batteryService {
     
     accessory.context.batteryState = accessory.context.batteryState ? accessory.context.batteryState : 0;
     
-    if(accessory.context.batteryValue <= 20)
+    if(accessory.context.batteryValue <= 20){
+      
+      this.log(accessory.displayName + ': Tank from the car tends to end (' + Math.round(accessory.context.batteryValue) + '%)');
+      
       accessory.context.batteryState = 1;
+   
+    }
     
     service.getCharacteristic(this.api.hap.Characteristic.BatteryLevel).updateValue(accessory.context.batteryValue);
     service.getCharacteristic(this.api.hap.Characteristic.ChargingState).updateValue(0);

@@ -1,6 +1,11 @@
 # Changelog
 
 
+## v1.0.7 - 2020-08-21
+- Adjusted polling
+- Bugfix
+- Bump dependencies
+
 ## v1.0.6 - 2020-08-21
 - Fixed typo (doors)
 

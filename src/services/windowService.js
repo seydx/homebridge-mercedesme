@@ -20,6 +20,8 @@ class windowService {
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
   getService (accessory) {
+    
+    const that = this;
 
     let service = accessory.getService('Windows');
     
@@ -31,6 +33,7 @@ class windowService {
       .getCharacteristic(this.api.hap.Characteristic.ContactSensorState)
       .on('change', function(value) {
         accessory.context.windowOldValue = value.oldValue;
+        that.log(accessory.displayName + ': Window(s)/Sunroof ' + (value?'opened':'closed'));
       });
       
     this.getState(accessory, service);
