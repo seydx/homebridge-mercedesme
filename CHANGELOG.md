@@ -1,6 +1,12 @@
 # Changelog
 
 
+## v1.0.9 - 2020-08-21
+- BUGFIX: added simple-oauth2 as dependencie
+
+## v1.0.8 - 2020-08-21
+- Removed Node warning
+
 ## v1.0.7 - 2020-08-21
 - Adjusted polling
 - Bugfix
