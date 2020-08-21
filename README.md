@@ -128,8 +128,8 @@ This plugin has been verified to work with the following apps on iOS 14:
 
 
 ## TODO
-- [ ] Doors as contact service
-- [ ] Vehicle Lock as Lock service
+- [ ] If it should be possible to control the doors in the future > Changing Door (Contact Service) to Door Service
+- [ ] If it should be possible to control the windows in the future > Changing Window (Contact Service) to Window Service
 
 
 
