@@ -92,11 +92,15 @@ MercedesPlatform.prototype = {
 
   init: async function(){
   
+    let name;
+  
     try {
     
       await this.storage.init();
       
-      for(const car in this.config.cars){                 
+      for(const car in this.config.cars){  
+      
+        name = this.config.cars[car].name;               
       
         let accessToken = await this.storage.getItem(this.config.cars[car].name);
         
@@ -131,7 +135,7 @@ MercedesPlatform.prototype = {
      
     } catch(error) {
      
-      this.log('[ERROR] An error occurred during initialising the API!');
+      this.log(name + ': An error occurred during initialising the API!');
       this.log(error);
     
     }
@@ -229,7 +233,7 @@ MercedesPlatform.prototype = {
       
       if(polled.lock && polled.vehicle && polled.fuel && !polled.errorLock && !polled.errorVehicle && !polled.errorFuel){
         
-        debug('Endpoints polled successfully.');
+        debug(accessory.displayName + ': Endpoints polled successfully.');
         
         polled = {
           errorLock: false,
@@ -254,11 +258,11 @@ MercedesPlatform.prototype = {
         if(polled.errorFuel)
           endpoint = 'Fuel Status';
         
-        debug(endpoint + ' could not be polled successfully! Trying again in 10s');
+        debug(accessory.displayName + ': ' + endpoint + ' could not be polled successfully! Trying again in 10s');
      
       }
       
-      debug(JSON.stringify(polled));
+      debug(accessory.displayName + ': ' + JSON.stringify(polled));
       
       setTimeout(this.pollApi.bind(this,accessory,polled), polled.rePoll);
       
