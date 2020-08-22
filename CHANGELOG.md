@@ -1,7 +1,7 @@
 # Changelog
 
 
-## v1.1.0 - 2020-08-21
+## v1.1.0 - 2020-08-22
 - Added remote authentication
 - Bugfixes
 
