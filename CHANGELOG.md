@@ -1,6 +1,10 @@
 # Changelog
 
 
+## v1.1.1 - 2020-08-22
+- Added "polling" into config.schema.json
+- Updated config.schema.json
+
 ## v1.1.0 - 2020-08-22
 - Added remote authentication
 - Bugfixes
