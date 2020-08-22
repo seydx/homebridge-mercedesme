@@ -40,17 +40,33 @@ After [Homebridge](https://github.com/nfarina/homebridge) has been installed:
 
 ## First steps (obtain Client ID and Client Secret)
 
-1. In order to use this plugin, you must first log in with your Mercedes Me account on https://developer.mercedes-benz.com
-2. After logging in, go to https://developer.mercedes-benz.com/products/vehicle_status/ and click on **Subscribe**
-3. Select **Bring your own car** and press **Next**
-4. Select **Standard** and press **Next**
-5. Choose **Create application** and press **Next**
-6. Enter **Application Name** (e.g. Homebridge) **Business Purposes** (e.g. homebridge-mercedesme) and press **Submit**
-7. Press **View in console**
-8. Edit **Redirect URLS** and modify "http://localhost" to "http://localhost:PORTFROMCONFIG/callback" (replace **PORTFROMCONFIG** with your own port from config.json)
-9. Copy your **Client ID** and **Client Secret** and put it in your config.json
-10. Done
- 
+In order to use this plugin, you must first log in with your Mercedes Me account on [Mercedes Developer](https://developer.mercedes-benz.com). 
+After logging in go to [Console](https://developer.mercedes-benz.com/console/) and press on **Add new app** if you dont have already an existing app for this plugin.
+
+Enter **Application Name** (e.g. Homebridge) **Business Purposes** (e.g. homebridge-mercedesme) and press **Create**
+
+Now we need to add the API endpoints to our App. 
+
+1. Visit [Vehicle Status API](https://developer.mercedes-benz.com/products/vehicle_status) and press **Get access**. 
+2. Choose **Bring your own car** and press **Next**
+3. Choose **Standard** and press **Next**
+4. Choose your existing app and press **Next**
+5. On **Edit Application** leave everything as it is and press **Submit**
+
+Congratulation. Now you have added the **Vehicle Status** endpoint to your app. You need also to add **Lock Status** endpoint, **Pay as your drive** endpoint and **Fuel status** endpoint to your app by following the above steps. 
+
+Requested endpoints:
+
+- [x] [Vehicle Status API](https://developer.mercedes-benz.com/products/vehicle_status/) (added above)
+- [ ] [Lock Status API](https://developer.mercedes-benz.com/products/vehicle_lock_status/)
+- [ ] [Fuel Status API](https://developer.mercedes-benz.com/products/fuel_status/)
+- [ ] [Pay as you drive API](https://developer.mercedes-benz.com/products/pay_as_you_drive_insurance/)
+
+Once you have added all the API endpoints to your application, visit [Console](https://developer.mercedes-benz.com/console/) again. 
+You should see your **Client ID**, **Client Secret** and **Redirect Url**. Edit your **Redirect Url** from 'http://localhost' to 'http://localhost:PORTFROMCONFIG/callback' _(replace **PORTFROMCONFIG** with your own port from the respective car)_
+
+Copy your **Client ID** and **Client Secret** and put it in your config.json (``Config UI > Plugins > Homebridge Mercedesme Settings > Client ID/Client Secret``)
+
 
  
 ## Configuration
