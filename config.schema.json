@@ -2,7 +2,7 @@
   "pluginAlias": "MercedesPlatform",
   "pluginType": "platform",
   "singular": true,
-  "headerDisplay": "<h1 align='center'>INFO</h1> <p align='center'>Go to <b>http://localhost:PORT</b> to authenticate the plugin!</p> <p align='center'>If <b>Remote Authentication</b> is enabled go to <b>http://${{HOSTNAME}}:PORT</b> to authenticate the plugin!</p> <p align='center'> <i><b>Note:</b> Replace <b>PORT</b> with the port entered for the respective car!</i></p>",
+  "headerDisplay": "<div class='card'><div class='card-header'><b>Authentication Server</b></div><div class='card-body'><h5 class='card-title'>Local Authentication</h5><p class='card-text'>If you have access to the browser of the device where this plugin is running u can start the authentication process over the link below <i>(replace port with the port of the respective car from config)</i>.</p><a class='btn btn-primary text-lowercase'>http://localhost:port</a><hr><h5 class='card-title'>Remote Authentication</h5><p class='card-text'>If you DONT have access to the browser of the device where this plugin is running u can start the authentication process over the link below <i>(replace port with the port of the respective car from config)</i>. <p><b>Remote Authentication</b> needs to be active in your config!</p></p><a class='btn btn-primary text-lowercase mw-100'>http://${{HOSTNAME}}:port</a></div></div><br>",
   "footerDisplay": "For documentation please see [GitHub repository](https://github.com/SeydX/homebridge-mercedesme)",      
   "schema": {
     "polling": {
@@ -108,6 +108,7 @@
           ]
         }
       ]
-    }
+    },
+    "polling"
   ]
-} 
+  } 
