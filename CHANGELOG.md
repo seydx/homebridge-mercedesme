@@ -1,6 +1,10 @@
 # Changelog
 
 
+## v1.1.0 - 2020-08-21
+- Added remote authentication
+- Bugfixes
+
 ## v1.0.9 - 2020-08-21
 - BUGFIX: added simple-oauth2 as dependencie
 
