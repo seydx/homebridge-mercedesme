@@ -86,7 +86,11 @@ Please setup your config in Config UI X under ```Plugins > Homebridge Mercedes M
           "vin": "WDD1234567N123456",
           "model": "Mercedes B180",
           "port": 3001,
-          "maxRange": 600
+          "maxRange": 600,
+          "remoteAuth": {
+            "active": true,
+            "code": "1234abcd-12ab-34cd-56ef-123456abcdefg"
+          }
         }
       ]
     }
@@ -108,13 +112,18 @@ See [Example Config](https://github.com/SeydX/homebridge-mercedesme/blob/master/
 * `cars.model` - **not required** : Model of the car (Default: Mercedes)
 * `cars.port` - **required** : Server port for authentication process (e.g. 3000)
 * `cars.maxRange` - **not required** : Maximum distance after full tank load (for calculating range in % for battery state if API doesnt send the percentage)
+* `cars.remoteAuth.active` - **not required** : Activate to proceed the authentication process from a remote device
+* `cars.remoteAuth.code` - **not required** : Manually obtained code during remote access from the url
 
 
 
 ## First start
 
-After starting the plugin, visit "**http://localhost:PORTFROMCONFIG**" (from the device where the plugin is running) and click on **Start**. Login screen from mercedes should pop up and after logging in and granting access a Token will be generated and stored in your local storage for further access.
+There are two ways to start the authentication process:
 
+1. If you have access to the browser of the device from which the plugin is running, open the browser and visit **http://localhost:PORTFROMCONFIG**. After pressing **Start** the Mercedes login screen should appear. After logging in and granting access, a token is generated and stored in your local storage for further access.
+
+2. If you don't have access to the browser of the device from which the plugin is running (e.g. Raspbian Lite), open ``Config UI > Plugins > Homebridge Mercedesme Settings``, expand **Remote Authentication** and select **Active**. Restart Homebridge for the changes to take effect and visit **http://HOSTIP:PORTFROMCONFIG**. After pressing **Start** the Mercedes login screen should appear. After logging in and granting access, you will be redirected to localhost and the browser should give an error. Copy the **code** after _"callback?code="_ from the url bar and put it also in your config.json (``Config UI > Plugins > Homebridge Mercedesme Settings > Remote Authentication > Code``). After restarting Homebridge a token will be generated and stored in your local storage for further access.
 
 
 ## Supported clients
