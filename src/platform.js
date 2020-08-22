@@ -45,7 +45,7 @@ function MercedesPlatform (log, config, api) {
   this.accessories = [];
   this.config = config;
   this.config.polling = config.polling * 1000 || 60000;
-  this.config.cars = config.cars || [];
+  this.config.cars = config.cars || []; 
   
   if(this.config.polling < 60000)
     this.config.polling = 60000;
@@ -209,7 +209,7 @@ MercedesPlatform.prototype = {
       polled.rePoll = 10000;
       
       error = this.meApi.errorHandler(accessory.context.config, error);
-      
+
       let endpoint = error[1];
       error = error[0];
       
@@ -291,6 +291,7 @@ MercedesPlatform.prototype = {
           vin: configAccessory.vin,
           model: configAccessory.model || 'Mercedes',
           maxRange: configAccessory.maxRange,
+          remoteAuth: configAccessory.remoteAuth || false,
           lockData: [],
           vehicleData: [],
           fuelData: []
@@ -334,11 +335,20 @@ MercedesPlatform.prototype = {
         await this.storage.init();
         let accessToken = await this.storage.getItem(accessory.displayName);     
         
-        this.log(accessory.displayName + ': Initializing API with stored token..');
-             
-        this.meApi = new meApi(this, accessToken, accessory.context.config);
+        if(accessToken){   
         
-        this.configure(accessory);
+          this.log(accessory.displayName + ': Initializing API with stored token..');
+             
+          this.meApi = new meApi(this, accessToken, accessory.context.config);
+        
+          this.configure(accessory);
+          
+        } else {
+        
+          this.log(accessory.displayName + ': Can not configure Accessory, stored credentials have been removed from storage folder!');
+          this.log(accessory.displayName + ': Please generate new token and restart homebridge!');
+        
+        }
         
       }
     
@@ -351,21 +361,38 @@ MercedesPlatform.prototype = {
 
   },
 
-  removeAccessory: function (accessory) {
+  removeAccessory: async function (accessory) {
   
-    this.log('Removing accessory: ' + accessory.displayName + '. No longer configured.');
-
-    let accessories = this.accessories.map( cachedAccessory => {
-      if(cachedAccessory.displayName !== accessory.displayName){
-        return cachedAccessory;
-      }
-    });
+    this.log('Removing accessory: ' + accessory.displayName + '. No longer configured. Checking for stored credentials...');
     
-    this.accessories = accessories.filter(function (el) {
-      return el != null;
-    });
-
-    this.api.unregisterPlatformAccessories(pluginName, platformName, [accessory]);
+    try {
+    
+      let credentials = await this.storage.getItem(accessory.displayName);
+      
+      if(credentials){
+        this.log(accessory.displayName + ': Removing stored credentials..');
+        await this.storage.removeItem(accessory.displayName);
+        this.log(accessory.displayName + ': Removed!');
+      }
+      
+      let accessories = this.accessories.map( cachedAccessory => {
+        if(cachedAccessory.displayName !== accessory.displayName){
+          return cachedAccessory;
+        }
+      });
+      
+      this.accessories = accessories.filter(function (el) {
+        return el != null;
+      });
+  
+      this.api.unregisterPlatformAccessories(pluginName, platformName, [accessory]);
+    
+    } catch(error) {
+    
+      this.log(accessory.displayName + ': An error occured during removing the accessory!');
+      debug(error);
+    
+    }
   
   }
 

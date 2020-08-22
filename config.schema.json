@@ -2,12 +2,20 @@
   "pluginAlias": "MercedesPlatform",
   "pluginType": "platform",
   "singular": true,
-  "headerDisplay": "Go to http://localhost:{port} to authenticate the plugin!",
-  "footerDisplay": "For documentation please see https://github.com/SeydX/homebridge-mercedesme",
+  "headerDisplay": "<h1 align='center'>INFO</h1> <p align='center'>Go to <b>http://localhost:PORT</b> to authenticate the plugin!</p> <p align='center'>If <b>Remote Authentication</b> is enabled go to <b>http://${{HOSTNAME}}:PORT</b> to authenticate the plugin!</p> <p align='center'> <i><b>Note:</b> Replace <b>PORT</b> with the port entered for the respective car!</i></p>",
+  "footerDisplay": "For documentation please see [GitHub repository](https://github.com/SeydX/homebridge-mercedesme)",      
   "schema": {
-    "cars": {
-      "title": "Registered Cars",
+    "polling": {
+      "title": "Polling",
+      "description": "Mercedes Me API Polling in seconds",
+      "type": "integer",
       "required": false,
+      "placeholder": 60,
+      "minimum": 60
+    },
+    "cars": {
+      "title": "Cars",
+      "required": true,
       "type": "array",
       "items": {
         "name": "Car Config",
@@ -54,17 +62,52 @@
             "description": "Maximum distance after full tank load",
             "type": "integer",
             "required": false
-          } 
+          },
+          "remoteAuth":{
+            "titel": "Remote Authentication",
+            "type": "object",
+            "properties": {
+              "active": {
+                 "description": "Activate only if you cannot continue the authentication process on the device on which this plugin is installed. Remote authentication is used to authenticate this plugin from another device.",
+                 "type": "boolean",
+                 "default": false
+              },
+              "code": {
+                "description": "Manually obtained code during remote access from the url",
+                "type": "string"
+              }
+            }
+          }
         }
       }
-    },
-    "polling": {
-      "title": "Polling",
-      "description": "Mercedes Me API Polling in seconds",
-      "type": "integer",
-      "required": false,
-      "placeholder": 60,
-      "minimum": 60
     }
-  }
-}
+  },
+  "layout": [
+    {
+      "key": "cars",
+      "type": "array",
+      "orderable": false,
+      "buttonText": "Add new Car",
+      "items": [ 
+        "cars[].name",
+        "cars[].clientID",
+        "cars[].clientSecret",
+        "cars[].vin",
+        "cars[].port",
+        "cars[].model", 
+        "cars[].maxRange",
+        {
+          "key": "cars[].remoteAuth",
+          "type": "section",
+          "title": "Remote Authentication",
+          "expandable": true,
+          "expanded": false,
+          "items": [
+            "cars[].remoteAuth.active",
+            "cars[].remoteAuth.code"
+          ]
+        }
+      ]
+    }
+  ]
+} 
