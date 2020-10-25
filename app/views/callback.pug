@@ -10,7 +10,7 @@ block content
             b(style="color: #00adef") TOKEN
           hr(style="width: 90%")
           p(style='color: #808080')= 'Token generated successfully. Token will be stored in ' + path + ' and will be used for futher access.'  
-          .row.justify-content-center.align-self-center.margin-center.flex-column
+          .row.justify-content-center.align-self-center.margin-center.flex-column(style="overflow-wrap: anywhere;")
             p(style="margin: 0; color: #808080") 
               b(style="color: #ffffff") Access token: 
               = accessToken.access_token
