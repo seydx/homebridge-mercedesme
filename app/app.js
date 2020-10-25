@@ -53,7 +53,7 @@ class MeApp {
     };
     
     const redirect_uri = `http://localhost:${this.config.port}/callback`;
-    const scopes = 'mb:vehicle:mbdata:vehiclestatus mb:vehicle:mbdata:fuelstatus mb:vehicle:mbdata:vehiclelock mb:vehicle:mbdata:payasyoudrive';
+    const scopes = 'mb:vehicle:mbdata:vehiclestatus mb:vehicle:mbdata:fuelstatus mb:vehicle:mbdata:vehiclelock mb:vehicle:mbdata:payasyoudrive offline_access';
 
     const client = new AuthorizationCode(params);
       
