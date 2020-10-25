@@ -1,6 +1,10 @@
 # Changelog
 
 
+## 1.1.2 -2020-10-25
+- Added new oAuth Route
+- Bugfixes
+
 ## v1.1.1 - 2020-08-22
 - Added "polling" into config.schema.json
 - Updated config.schema.json
