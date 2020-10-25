@@ -46,15 +46,15 @@ class MeApp {
         secret: this.config.clientSecret
       },
       auth: {
-        tokenHost: 'https://api.secure.mercedes-benz.com',
-        tokenPath: '/oidc10/auth/oauth/v2/token',
-        authorizePath: '/oidc10/auth/oauth/v2/authorize',
+        tokenHost: 'https://id.mercedes-benz.com',
+        tokenPath: '/as/token.oauth2',
+        authorizePath: '/as/authorization.oauth2'
       }
     };
     
     const redirect_uri = `http://localhost:${this.config.port}/callback`;
-    const scopes = 'mb:vehicle:status:general mb:user:pool:reader mb:vehicle:mbdata:vehiclestatus mb:vehicle:mbdata:fuelstatus mb:vehicle:mbdata:vehiclelock mb:vehicle:mbdata:payasyoudrive';
-    
+    const scopes = 'mb:vehicle:mbdata:vehiclestatus mb:vehicle:mbdata:fuelstatus mb:vehicle:mbdata:vehiclelock mb:vehicle:mbdata:payasyoudrive';
+
     const client = new AuthorizationCode(params);
       
     const authorizationUri = client.authorizeURL({       
@@ -108,10 +108,10 @@ class MeApp {
         app.set('view options', { layout: false });
         app.use(express.static(path.join(__dirname, 'public')));
         
-        app.get('/auth', async (req, res) => {
+        app.get('/auth', async (req, res) => {     
         
           debug(this.config.name + ': [GET] /auth.html');
-          debug(this.config.name + ': [REDIRECT] to ' + authorizationUri);
+          debug(this.config.name + ': [REDIRECT] to ' + authorizationUri);     
         
           res.redirect(authorizationUri);
           
