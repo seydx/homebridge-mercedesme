@@ -72,7 +72,7 @@ class lockService {
       
     }
     
-    accessory.context.lockValue = value.includes(1) ? 1 : 0;
+    accessory.context.lockValue = value.includes(1) ? 1 : (value.length ? 0 : 1);
     service.getCharacteristic(this.api.hap.Characteristic.LockCurrentState).updateValue(accessory.context.lockValue);
     service.getCharacteristic(this.api.hap.Characteristic.LockTargetState).updateValue(accessory.context.lockValue);
     
