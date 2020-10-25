@@ -1,7 +1,12 @@
 # Changelog
 
 
-## 1.1.2 -2020-10-25
+## v1.1.3 - 2020-10-25
+- Fixed refresh_token
+
+**Note:** Please remove the storage folder under your config path (eg /var/lib/homebridge)
+
+## v1.1.2 - 2020-10-25
 - Added new oAuth Route
 - Bugfixes
 
