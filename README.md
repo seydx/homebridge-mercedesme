@@ -66,6 +66,7 @@ Requested endpoints:
 Once you have added all the API endpoints to your application, visit [Console](https://developer.mercedes-benz.com/console/) again. 
 You should see your **Client ID**, **Client Secret** and **Redirect Url**. 
 
+### Important
 Add your Config UI X ip address with port as your **Redirect Url**. If you have multiple ip addresses to your config ui x, please add them all as **redirect uri** !
 
 Copy your **Client ID** and **Client Secret** and put it in your config.json (``Config UI > Plugins > Homebridge Mercedesme Settings > Client ID/Client Secret``)
