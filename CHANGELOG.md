@@ -8,6 +8,9 @@
 
 **NOTE:** If you are using **v1.x** of this plugin, i recommend you to remove it and add a new car via Config UI X! The Version 2 is completely new designed. It supports [Config UI X Plugin UI Utils](https://github.com/homebridge/plugin-ui-utils) and is full integrated in your homebridge system via Config UI X. The custom config will guide you through the process! Generating or refreshing access token was never easier! Below you can see how easy it is to create, edit or delete a new car for the config.json using the custom user interface. To use the custom user interface you need at least **homebridge-config-ui-x v4.34.0**!
 
+### Important
+Add your Config UI X ip address with port as your **Redirect Url** (eg http://192.168.178.11:8080). If you have multiple ip addresses to your config ui x, please add them all as **redirect uri** !
+
 <img src="https://github.com/SeydX/homebridge-mercedesme/blob/beta/images/hb_mercedesme_ui.gif" align="center" alt="CustomUI">
 
 ## v1.1.3 - 2020-10-25
