@@ -19,7 +19,8 @@
           "model": "A200",
           "maxRange": 550,
           "polling": 60,
-          "electricVehicle": false
+          "electricVehicle": false,
+          "humiditySensor": true
         },
         {
           "name": "Mercedes",
