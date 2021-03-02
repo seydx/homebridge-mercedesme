@@ -29,6 +29,7 @@ class CarAccessory {
     let serviceDoor = this.accessory.getService('Doors');                                    //check with name, because contactSensor already exist
     let serviceWindow = this.accessory.getService('Windows');                                //check with name, because contactSensor already exist
     let serviceLight = this.accessory.getService(this.api.hap.Service.Lightbulb);
+    let serviceHumidity = this.accessory.getService(this.api.hap.Service.HumiditySensor);
     
     //Car Lock
   
@@ -66,11 +67,30 @@ class CarAccessory {
           Logger.info('Car trunk lock ' + (state.newValue ? 'secured' : 'unsecured'), this.accessory.displayName);
       });
       
-    //Battery
+    //Battery/Humidity
   
     if (!serviceBattery) {
       Logger.info('Adding Battery service', this.accessory.displayName);
       serviceBattery = this.accessory.addService(this.api.hap.Service.BatteryService);
+    }
+    
+    serviceBattery
+      .getCharacteristic(this.api.hap.Characteristic.BatteryLevel)
+      .on('change', state => {
+        if(state.oldValue !== state.newValue)
+          Logger.info('Fuel tank/Battery changed from ' + state.oldValue + '%' + ' to ' + state.newValue + '%', this.accessory.displayName);
+      });
+    
+    if(this.accessory.context.config.humiditySensor) {
+      if(!serviceHumidity){
+        Logger.info('Adding Humidity service', this.accessory.displayName);
+        serviceHumidity = this.accessory.addService(this.api.hap.Service.HumiditySensor, 'Tank', 'tank');
+      }
+    } else {
+      if(serviceHumidity){
+        Logger.info('Removing Humidity service', this.accessory.displayName);
+        this.accessory.removeService(serviceHumidity);
+      }
     }
     
     //Doors
@@ -130,11 +150,11 @@ class CarAccessory {
       
       });
 
-    this.getStates(serviceLock, serviceBattery, serviceDoor, serviceWindow, serviceLight);
+    this.getStates(serviceLock, serviceBattery, serviceDoor, serviceWindow, serviceLight, serviceHumidity);
     
   }
 
-  async getStates(serviceLock, serviceBattery, serviceDoor, serviceWindow, serviceLight){
+  async getStates(serviceLock, serviceBattery, serviceDoor, serviceWindow, serviceLight, serviceHumidity){
     
     try {
 
@@ -143,14 +163,14 @@ class CarAccessory {
         let dataFuel = await this.me.fuelStatus(this.accessory.context.config.vin);
         Logger.debug(dataFuel, this.accessory.displayName);
         
-        await this.handleBatteryFuel(dataFuel, serviceBattery);
+        await this.handleBatteryFuel(dataFuel, serviceBattery, serviceHumidity);
       
       } else {
         
         let dataElectro = await this.me.electroStatus(this.accessory.context.config.vin);
         Logger.debug(dataElectro, this.accessory.displayName);
         
-        await this.handleBatteryElectro(dataElectro, serviceBattery);
+        await this.handleBatteryElectro(dataElectro, serviceBattery, serviceHumidity);
         
       }
       
@@ -196,16 +216,16 @@ class CarAccessory {
     } finally {
       
       setTimeout( () => {
-        this.getStates(serviceLock, serviceBattery, serviceDoor, serviceWindow, serviceLight);
+        this.getStates(serviceLock, serviceBattery, serviceDoor, serviceWindow, serviceLight, serviceHumidity);
       }, this.accessory.context.config.polling);
       
     }
     
   }
   
-  async handleBatteryFuel(dataFuel, service){
+  async handleBatteryFuel(dataFuel, service, serviceHumidity){
     
-    let batteryValue = 100;
+    let batteryValue;
     let batteryState = 0;
     
     if(dataFuel.length){
@@ -228,28 +248,37 @@ class CarAccessory {
       
     }
     
-    if(batteryValue <= 20)
-      batteryState = 1;
+    if(batteryValue !== undefined){
+    
+      if(batteryValue <= 20)
+        batteryState = 1;
+          
+      service
+        .getCharacteristic(this.api.hap.Characteristic.BatteryLevel)
+        .updateValue(batteryValue);
         
-    service
-      .getCharacteristic(this.api.hap.Characteristic.BatteryLevel)
-      .updateValue(batteryValue);
+      service
+        .getCharacteristic(this.api.hap.Characteristic.StatusLowBattery)
+        .updateValue(batteryState);
+        
+      if(serviceHumidity)
+        serviceHumidity
+          .getCharacteristic(this.api.hap.Characteristic.CurrentRelativeHumidity)
+          .updateValue(batteryValue);
+      
+    }
     
     service
       .getCharacteristic(this.api.hap.Characteristic.ChargingState)
       .updateValue(0);
-      
-    service
-      .getCharacteristic(this.api.hap.Characteristic.StatusLowBattery)
-      .updateValue(batteryState);
     
     return;
     
   }
   
-  async handleBatteryElectro(dataElectro, service){
+  async handleBatteryElectro(dataElectro, service, serviceHumidity){
     
-    let batteryValue = 100;
+    let batteryValue;
     let batteryState = 0;
     
     if(dataElectro.length){
@@ -272,20 +301,29 @@ class CarAccessory {
       
     }
     
-    if(batteryValue <= 20)
-      batteryState = 1;
+    if(batteryValue !== undefined){
+    
+      if(batteryValue <= 20)
+        batteryState = 1;
+          
+      service
+        .getCharacteristic(this.api.hap.Characteristic.BatteryLevel)
+        .updateValue(batteryValue);
         
-    service
-      .getCharacteristic(this.api.hap.Characteristic.BatteryLevel)
-      .updateValue(batteryValue);
+      service
+        .getCharacteristic(this.api.hap.Characteristic.StatusLowBattery)
+        .updateValue(batteryState);
+        
+      if(serviceHumidity)
+        serviceHumidity
+          .getCharacteristic(this.api.hap.Characteristic.CurrentRelativeHumidity)
+          .updateValue(batteryValue);
+      
+    }
     
     service
       .getCharacteristic(this.api.hap.Characteristic.ChargingState)
       .updateValue(0);
-      
-    service
-      .getCharacteristic(this.api.hap.Characteristic.StatusLowBattery)
-      .updateValue(batteryState);
     
     return;
     
