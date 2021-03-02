@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.0.2 - 2021-03-02
+- Fixed window contact state & other improvements
+
+**NOTE: ** Not on Version 2? Please check the changelog and new instructions before update!
+
 ## v2.0.1 - 2021-03-02
 - Fixed issues with electric vehicle
 - Better error handling
