@@ -43,6 +43,11 @@ const schema = {
             'type': 'boolean',
             'description': 'Check if your car is a electric vehicle.'
           },
+          'humiditySensor': {
+            'title': 'Humidity Sensor',
+            'type': 'boolean',
+            'description': 'Enable this if you want to show remaining tank load in percent as a humidity sensor.'
+          },
           'manufacturer': {
             'name': 'Manufacturer',
             'type': 'string',
@@ -110,6 +115,7 @@ const schema = {
     'cars.clientSecret',
     'cars.vin',
     'cars.electricVehicle',
+    'cars.humiditySensor',
     {
       'key': 'cars',
       'type': 'section',
