@@ -67,7 +67,7 @@ Once you have added all the API endpoints to your application, visit [Console](h
 You should see your **Client ID**, **Client Secret** and **Redirect Url**. 
 
 ### Important
-Add your Config UI X ip address with port as your **Redirect Url**. If you have multiple ip addresses to your config ui x, please add them all as **redirect uri** !
+Add your Config UI X ip address with port as your **Redirect Url** (eg http://192.168.178.11:8080). If you have multiple ip addresses to your config ui x, please add them all as **redirect uri** !
 
 Copy your **Client ID** and **Client Secret** and put it in your config.json (``Config UI > Plugins > Homebridge Mercedesme Settings > Client ID/Client Secret``)
 
