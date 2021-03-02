@@ -6,6 +6,11 @@
 
 **NOTE:** If you have an electric vehicle and had issues with "Electric Vehicle" enabled in the config, please refresh your access token via Config UI X after the update and restart homebridge
 
+1. Update plugin
+2. Restart homebridge
+3. Refresh Token
+4. Restart Homebridge
+
 <img src="https://github.com/SeydX/homebridge-mercedesme/blob/master/images/hb_mercedesme_ui_refreshToken.gif" align="center" alt="CustomUI Refresh Token">
 
 ## v2.0.0 - 2021-03-02
