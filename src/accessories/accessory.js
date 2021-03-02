@@ -176,16 +176,13 @@ class CarAccessory {
       Logger.error('An error occured during polling API', this.accessory.displayName);
       
       if(err.response){
-        if(err.response.status === 401 || err.response.status === 403){
-          error = 'It seems that it is not possible anymore to grant access with your stored token!';
-        } else if(err.response.status === 404){
-          error = 'Your car does not support this!';
-        } else if(err.response.status === 429 || err.response.status === 500){
-          error = 'Received too many requests!';
-        } else if(err.response.status === 503 || err.response.status == 504){
-          error = 'Mercedes API currently not available!';
-        } else if(err.response.data){
+        if(err.response.data){
           error = err.response.data;
+        } else {
+          error = {
+            status: err.response.status,
+            message: err.response.statusText
+          }
         }
       }
       
