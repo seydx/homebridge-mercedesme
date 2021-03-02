@@ -104,7 +104,8 @@ Please setup your config in Config UI X under ```Plugins > Homebridge Mercedes M
           "model": "Mercedes A200",
           "manufacturer": "Mercedes",
           "maxRange": 800,
-          "polling": 60
+          "polling": 60,
+          "humiditySensor": true
         },
         {
           "name": "Mercedes CLA250",
@@ -137,6 +138,7 @@ See [Example Config](https://github.com/SeydX/homebridge-mercedesme/blob/master/
 * `cars.maxRange` - **not required** : Maximum distance after full tank load (for calculating range in % for battery state if API doesnt send the percentage)
 * `cars.polling` - **not required** : Time in seconds for polling Mercedes API (Default: 60s)
 * `cars.electricVehicle` - **not required** : Enable if your car is a electric vehicle (Default: false)
+* `cars.humiditySensor` - **not required** : Enable if want to show your remaining tank/battery load as a humidity sensor (Default: false)
 
 
 ## Supported clients
