@@ -1,5 +1,5 @@
 /**
- * v1
+ * v2
  *
  * @url https://github.com/SeydX/homebridge-mercedesme
  * @author SeydX <seyd55@outlook.de>

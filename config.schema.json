@@ -2,16 +2,19 @@
   "pluginAlias": "MercedesPlatform",
   "pluginType": "platform",
   "singular": true,
-  "headerDisplay": "<div class='card'><div class='card-header'><b>Authentication Server</b></div><div class='card-body'><h5 class='card-title'>Local Authentication</h5><p class='card-text'>If you have access to the browser of the device where this plugin is running u can start the authentication process over the link below <i>(replace port with the port of the respective car from config)</i>.</p><a class='btn btn-primary text-lowercase'>http://localhost:port</a><hr><h5 class='card-title'>Remote Authentication</h5><p class='card-text'>If you DONT have access to the browser of the device where this plugin is running u can start the authentication process over the link below <i>(replace port with the port of the respective car from config)</i>. <p><b>Remote Authentication</b> needs to be active in your config!</p></p><a class='btn btn-primary text-lowercase mw-100'>http://${{HOSTNAME}}:port</a></div></div><br>",
-  "footerDisplay": "For documentation please see [GitHub repository](https://github.com/SeydX/homebridge-mercedesme)",      
+  "customUi": true,
+  "footerDisplay": "For documentation please see [GitHub repository](https://github.com/SeydX/homebridge-mercedesme)",
   "schema": {
-    "polling": {
-      "title": "Polling",
-      "description": "Mercedes Me API Polling in seconds",
-      "type": "integer",
-      "required": false,
-      "placeholder": 60,
-      "minimum": 60
+    "name": {
+      "title": "Name",
+      "type": "string",
+      "default": "MercedesPlatform",
+      "description": "Name for the log."
+    },
+    "debug": {
+      "title": "Debug",
+      "type": "boolean",
+      "description": "Enables additional output in the log."
     },
     "cars": {
       "title": "Cars",
@@ -45,11 +48,10 @@
             "type": "string",
             "required": true
           },
-          "port": {
-            "title": "Port",
-            "description": "Server port for authentication process",
-            "type": "integer",
-            "required": true
+          "manufacturer": {
+            "name": "Manufacturer",
+            "type": "string",
+            "description": "Set the manufacturer name for display in the Home app."
           },
           "model": {
             "title": "Model",
@@ -63,18 +65,59 @@
             "type": "integer",
             "required": false
           },
-          "remoteAuth":{
-            "titel": "Remote Authentication",
+          "electricVehicle": {
+            "title": "Electric Vehicle",
+            "type": "boolean",
+            "description": "Check if your car is a electric vehicle."
+          },
+          "polling": {
+            "title": "Polling",
+            "description": "Mercedes Me API Polling in seconds",
+            "type": "integer",
+            "required": false,
+            "placeholder": 60,
+            "minimum": 60
+          },
+          "authorizationUri": {
+            "title": "Authorization Uri",
+            "description": "Autherization Endpoint (generated from plugin).",
+            "type": "string",
+            "required": false
+          },
+          "autherization_code": {
+            "title": "Authorization Code",
+            "description": "Autherization Code (generated from plugin).",
+            "type": "string",
+            "required": false
+          },
+          "token": {
+            "titel": "Token",
             "type": "object",
             "properties": {
-              "active": {
-                 "description": "Activate only if you cannot continue the authentication process on the device on which this plugin is installed. Remote authentication is used to authenticate this plugin from another device.",
-                 "type": "boolean",
-                 "default": false
+              "access_token": {
+                "title": "Access Token",
+                "type": "string",
+                "required": true
               },
-              "code": {
-                "description": "Manually obtained code during remote access from the url",
-                "type": "string"
+              "refresh_token": {
+                "title": "Refresh Token",
+                "type": "string",
+                "required": true
+              },
+              "token_type": {
+                "title": "Token Type",
+                "type": "string",
+                "required": false
+              },
+              "expires_in": {
+                "title": "Expires in",
+                "type": "integer",
+                "required": false
+              },
+              "expires_at": {
+                "title": "Expires at",
+                "type": "string",
+                "required": false
               }
             }
           }
@@ -83,32 +126,60 @@
     }
   },
   "layout": [
+    "name",
+    "debug",
     {
       "key": "cars",
       "type": "array",
       "orderable": false,
-      "buttonText": "Add new Car",
-      "items": [ 
+      "buttonText": "Add new car",
+      "items": [
         "cars[].name",
         "cars[].clientID",
         "cars[].clientSecret",
         "cars[].vin",
-        "cars[].port",
-        "cars[].model", 
-        "cars[].maxRange",
+        "cars[].electricVehicle",
         {
-          "key": "cars[].remoteAuth",
+          "key": "cars[]",
           "type": "section",
-          "title": "Remote Authentication",
+          "title": "Branding",
+          "expandable": true,
+          "expanded": true,
+          "orderable": false,
+          "items": [
+            "cars[].manufacturer",
+            "cars[].model"
+          ]
+        },
+        {
+          "key": "cars[]",
+          "type": "section",
+          "title": "Extras",
+          "expandable": true,
+          "expanded": true,
+          "orderable": false,
+          "items": [
+            "cars[].maxRange",
+            "cars[].polling"
+          ]
+        },
+        {
+          "key": "cars[].token",
+          "type": "section",
+          "title": "Autherization",
+          "description": "Generated credentials. Do not modify!",
           "expandable": true,
           "expanded": false,
+          "orderable": false,
           "items": [
-            "cars[].remoteAuth.active",
-            "cars[].remoteAuth.code"
+            "cars[].token.access_token",
+            "cars[].token.refresh_token",
+            "cars[].token.token_type",
+            "cars[].token.expires_in",
+            "cars[].token.expires_at"
           ]
         }
       ]
-    },
-    "polling"
+    }
   ]
-  } 
+}
