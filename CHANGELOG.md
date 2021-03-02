@@ -1,6 +1,14 @@
 # Changelog
 
 
+## v2.0.0 - 2021-03-02
+- Refactored
+- Added plugin ui utils
+- Bugfix
+- Support HB 1.3.x
+
+**NOTE:** If you are using **v1.x** of this plugin, i recommend you to remove it and add a new car via Config UI X! Version 2 supports **plugin ui utils** which mean that config ui x will guide your through the process! 
+
 ## v1.1.3 - 2020-10-25
 - Fixed refresh_token
 
