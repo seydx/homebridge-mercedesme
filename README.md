@@ -53,17 +53,20 @@ Now we need to add the API endpoints to our App.
 4. Choose your existing app and press **Next**
 5. On **Edit Application** leave everything as it is and press **Submit**
 
-Congratulation. Now you have added the **Vehicle Status** endpoint to your app. You need also to add **Lock Status** endpoint, **Pay as your drive** endpoint and **Fuel status** endpoint to your app by following the above steps. 
+Congratulation. Now you have added the **Vehicle Status** endpoint to your app. You need also to add **Lock Status** endpoint, **Pay as your drive** endpoint, **Electric Vehicle Status** endpoint and **Fuel status** endpoint to your app by following the above steps. 
 
 Requested endpoints:
 
-- [x] [Vehicle Status API](https://developer.mercedes-benz.com/products/vehicle_status/) (added above)
-- [ ] [Lock Status API](https://developer.mercedes-benz.com/products/vehicle_lock_status/)
-- [ ] [Fuel Status API](https://developer.mercedes-benz.com/products/fuel_status/)
-- [ ] [Pay as you drive API](https://developer.mercedes-benz.com/products/pay_as_you_drive_insurance/)
+- [x] [Vehicle Status](https://developer.mercedes-benz.com/products/vehicle_status/) (added above)
+- [ ] [Lock Status](https://developer.mercedes-benz.com/products/vehicle_lock_status/)
+- [ ] [Fuel Status](https://developer.mercedes-benz.com/products/fuel_status/)
+- [ ] [Electric Vehicle Status](https://developer.mercedes-benz.com/products/electric_vehicle_status/)
+- [ ] [Pay as you drive](https://developer.mercedes-benz.com/products/pay_as_you_drive_insurance/)
 
 Once you have added all the API endpoints to your application, visit [Console](https://developer.mercedes-benz.com/console/) again. 
-You should see your **Client ID**, **Client Secret** and **Redirect Url**. Edit your **Redirect Url** from 'http://localhost' to 'http://localhost:PORTFROMCONFIG/callback' _(replace **PORTFROMCONFIG** with your own port from the respective car)_
+You should see your **Client ID**, **Client Secret** and **Redirect Url**. 
+
+Add your Config UI X ip address with port as your **Redirect Url**. If you have multiple ip addresses to your config ui x, please add them all as **redirect uri** !
 
 Copy your **Client ID** and **Client Secret** and put it in your config.json (``Config UI > Plugins > Homebridge Mercedesme Settings > Client ID/Client Secret``)
 
@@ -84,7 +87,7 @@ Please setup your config in Config UI X under ```Plugins > Homebridge Mercedes M
   "platforms": [
     {
       "platform": "MercedesPlatform",
-      "polling": 60,
+      "debug": false,
       "cars": [
         {
           "name": "Mercedes A200",
@@ -92,8 +95,9 @@ Please setup your config in Config UI X under ```Plugins > Homebridge Mercedes M
           "clientSecret": "d896ct55-c85c-6363-9999-25iu6985mo10",
           "vin": "WDD1234567N123456",
           "model": "Mercedes A200",
-          "port": 3000,
-          "maxRange": 800
+          "manufacturer": "Mercedes",
+          "maxRange": 800,
+          "polling": 60
         },
         {
           "name": "Mercedes CLA250",
@@ -101,12 +105,10 @@ Please setup your config in Config UI X under ```Plugins > Homebridge Mercedes M
           "clientSecret": "d896ct55-c85c-6363-9999-25iu6985mo10",
           "vin": "WDD1234567N123456",
           "model": "Mercedes B180",
-          "port": 3001,
+          "manufacturer": "Mercedes",
           "maxRange": 600,
-          "remoteAuth": {
-            "active": true,
-            "code": "1234abcd-12ab-34cd-56ef-123456abcdefg"
-          }
+          "polling": 120,
+          "electricVehicle": true
         }
       ]
     }
@@ -120,27 +122,22 @@ See [Example Config](https://github.com/SeydX/homebridge-mercedesme/blob/master/
 ### Settings
 
 * `platform` - **required** : Must be 'MercedesPlatform'
-* `polling` - **not required** : Time in seconds for polling Mercedes API (Default: 60s)
 * `cars.name` - **required** : Name of the Accessory (*unique*)
 * `cars.clientID` - **required** : Client ID obtained from https://developer.mercedes-benz.com
 * `cars.clientSecret` - **required** : Client Secret obtained from https://developer.mercedes-benz.com
 * `cars.vin` - **required** : Vehicle Identification Number (VIN)
+* `cars.manufacturer` - **not required** : Car Manufacturer
 * `cars.model` - **not required** : Model of the car (Default: Mercedes)
-* `cars.port` - **required** : Server port for authentication process (e.g. 3000)
 * `cars.maxRange` - **not required** : Maximum distance after full tank load (for calculating range in % for battery state if API doesnt send the percentage)
-* `cars.remoteAuth.active` - **not required** : Activate to proceed the authentication process from a remote device
-* `cars.remoteAuth.code` - **not required** : Manually obtained code during remote access from the url
-
+* `cars.polling` - **not required** : Time in seconds for polling Mercedes API (Default: 60s)
+* `cars.electricVehicle` - **not required** : Enable if your car is a electric vehicle (Default: false)
 
 
 ## First start
 
-There are two ways to start the authentication process:
+The Version 2 is completely new designed. It supports [Config UI X Plugin UI Utils](https://github.com/homebridge/plugin-ui-utils) and is full integrated in your homebridge system via Config UI X. The custom config will guide you through the process! Generating or refreshing access token was never easier! 
 
-1. If you have access to the browser of the device from which the plugin is running, open the browser and visit **http://localhost:PORTFROMCONFIG**. After pressing **Start** the Mercedes login screen should appear. After logging in and granting access, a token is generated and stored in your local storage for further access.
-
-2. If you don't have access to the browser of the device from which the plugin is running (e.g. Raspbian Lite), open ``Config UI > Plugins > Homebridge Mercedesme Settings``, expand **Remote Authentication** and select **Active**. Restart Homebridge for the changes to take effect and visit **http://HOSTIP:PORTFROMCONFIG**. After pressing **Start** the Mercedes login screen should appear. After logging in and granting access, you will be redirected to localhost and the browser should give an error. Copy the **code** after _"callback?code="_ from the url bar and put it also in your config.json (``Config UI > Plugins > Homebridge Mercedesme Settings > Remote Authentication > Code``). After restarting Homebridge a token will be generated and stored in your local storage for further access.
-
+See below:
 
 ## Supported clients
 
@@ -188,7 +185,7 @@ You can contribute to this homebridge plugin in following ways:
 
 **MIT License**
 
-Copyright (c) 2020 **Seyit Bayraktar**
+Copyright (c) 2020-2021 **Seyit Bayraktar**
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
