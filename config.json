@@ -22,15 +22,18 @@
         },
         {
           "platform": "MercedesPlatform",
-          "polling": 30,
+          "debug": false,
           "cars": [
             {
               "name": "Mercedes",
               "clientID": "9a678895-358c-4d5d-8611-14481bac44f5",
               "clientSecret": "dc8aee3f-b97e-4757-8141-53c9597f040f",
               "vin": "WDD1183461N002980",
-              "port": 3000,
-              "model": "A200"
+              "manufacturer": "Mercedes",
+              "model": "A200",
+              "maxRange": 550,
+              "polling": 60,
+              "electricVehicle": false
             }
           ]
         }
