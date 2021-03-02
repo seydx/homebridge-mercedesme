@@ -157,6 +157,12 @@ This plugin has been verified to work with the following apps on iOS 14:
 
 If you have any issues with the plugin, you can enable the debug mode, which will provide some additional information. This might be useful for debugging issues. Open your config.json and set ``"debug": true``
 
+#### Token Issues
+
+If you experiencing issues with your generated token, you can easily refresh it via Config UI X. Below you can see how to do it.
+
+<img src="https://github.com/SeydX/homebridge-mercedesme/blob/master/images/hb_mercedesme_ui_refreshToken.gif" align="center" alt="CustomUI Refresh Token">
+
 
 ## Changelog
 
