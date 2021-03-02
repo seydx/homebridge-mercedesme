@@ -71,7 +71,11 @@ class MercedesMe {
           
       Logger.info('Access Token expired! Refreshing token...', this.accessory.displayName);
       
-      this._accessToken = await this._accessToken.refresh();
+      const refreshParams = {
+        scope: 'mb:vehicle:mbdata:vehiclestatus mb:vehicle:mbdata:fuelstatus mb:vehicle:mbdata:evstatus mb:vehicle:mbdata:vehiclelock mb:vehicle:mbdata:payasyoudrive offline_access'
+      };
+      
+      this._accessToken = await this._accessToken.refresh(refreshParams);
       
       Logger.info('Access token refreshed!', this.accessory.displayName);
     
