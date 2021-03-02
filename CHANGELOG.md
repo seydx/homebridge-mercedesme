@@ -1,5 +1,10 @@
 # Changelog
 
+
+## v2.0.3 - 2021-03-03
+- Added Humidity Sensor to show remaining tank/battery
+- Battery Bugfix
+
 ## v2.0.2 - 2021-03-02
 - Fixed window contact state & other improvements
 
