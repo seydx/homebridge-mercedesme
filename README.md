@@ -144,7 +144,7 @@ This plugin has been verified to work with the following apps on iOS 14:
 
 * Apple Home
 * All 3rd party apps like Elgato Eve etc.
-* Homebridge 1.1.6
+* Homebridge >= v1.1.6
 
 ## TODO
 - [ ] If it should be possible to control the doors in the future > Changing Door (Contact Service) to Door Service
