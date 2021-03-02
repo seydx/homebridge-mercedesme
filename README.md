@@ -71,6 +71,12 @@ Add your Config UI X ip address with port as your **Redirect Url**. If you have 
 Copy your **Client ID** and **Client Secret** and put it in your config.json (``Config UI > Plugins > Homebridge Mercedesme Settings > Client ID/Client Secret``)
 
 
+## First start
+
+The Version 2 is completely new designed. It supports [Config UI X Plugin UI Utils](https://github.com/homebridge/plugin-ui-utils) and is full integrated in your homebridge system via Config UI X. The custom config will guide you through the process! Generating or refreshing access token was never easier! Below you can see how easy it is to create, edit or delete a new car for the config.json using the custom user interface. To use the custom user interface you need at least **homebridge-config-ui-x v4.34.0**!
+
+<img src="https://github.com/SeydX/homebridge-mercedesme/blob/beta/images/hb_mercedesme_ui.gif" align="center" alt="CustomUI">
+
  
 ## Configuration
 
@@ -118,7 +124,6 @@ Please setup your config in Config UI X under ```Plugins > Homebridge Mercedes M
 See [Example Config](https://github.com/SeydX/homebridge-mercedesme/blob/master/example-config.json) for more details.
 
 
-
 ### Settings
 
 * `platform` - **required** : Must be 'MercedesPlatform'
@@ -133,12 +138,6 @@ See [Example Config](https://github.com/SeydX/homebridge-mercedesme/blob/master/
 * `cars.electricVehicle` - **not required** : Enable if your car is a electric vehicle (Default: false)
 
 
-## First start
-
-The Version 2 is completely new designed. It supports [Config UI X Plugin UI Utils](https://github.com/homebridge/plugin-ui-utils) and is full integrated in your homebridge system via Config UI X. The custom config will guide you through the process! Generating or refreshing access token was never easier! 
-
-See below:
-
 ## Supported clients
 
 This plugin has been verified to work with the following apps on iOS 14:
@@ -146,8 +145,6 @@ This plugin has been verified to work with the following apps on iOS 14:
 * Apple Home
 * All 3rd party apps like Elgato Eve etc.
 * Homebridge 1.1.6
-
-
 
 ## TODO
 - [ ] If it should be possible to control the doors in the future > Changing Door (Contact Service) to Door Service
