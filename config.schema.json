@@ -70,6 +70,11 @@
             "type": "boolean",
             "description": "Check if your car is a electric vehicle."
           },
+          "humiditySensor": {
+            "title": "Humidity Sensor",
+            "type": "boolean",
+            "description": "Enable this if you want to show remaining tank load in percent as a humidity sensor."
+          },
           "polling": {
             "title": "Polling",
             "description": "Mercedes Me API Polling in seconds",
@@ -77,18 +82,6 @@
             "required": false,
             "placeholder": 60,
             "minimum": 60
-          },
-          "authorizationUri": {
-            "title": "Authorization Uri",
-            "description": "Autherization Endpoint (generated from plugin).",
-            "type": "string",
-            "required": false
-          },
-          "autherization_code": {
-            "title": "Authorization Code",
-            "description": "Autherization Code (generated from plugin).",
-            "type": "string",
-            "required": false
           },
           "token": {
             "titel": "Token",
@@ -139,6 +132,7 @@
         "cars[].clientSecret",
         "cars[].vin",
         "cars[].electricVehicle",
+        "cars[].humiditySensor",
         {
           "key": "cars[]",
           "type": "section",
