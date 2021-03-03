@@ -105,8 +105,8 @@ class MercedesMe {
     
     if (this._accessToken) {
         
-      Logger.debug('Checking access token for ' + endpoint, this.accessory.displayName);
-      
+      Logger.debug('Checking access token for ' + endpoint + ' service.', this.accessory.displayName);
+                                                    
       await this._refreshToken();
       
       let config = {
