@@ -163,7 +163,7 @@ MercedesPlatform.prototype = {
     
     accessory.context.config = device;
     
-    new carAccessory(this.api, accessory, this.accessories);
+    new carAccessory(this.api, accessory);
     
     return;
 
