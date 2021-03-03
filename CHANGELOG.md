@@ -1,6 +1,9 @@
 # Changelog
 
 
+## v2.0.7 - 2021-03-03
+- Bugfix
+
 ## v2.0.6 - 2021-03-03
 - Dont update service if response is empty
 - Improved error handling
