@@ -1,6 +1,9 @@
 # Changelog
 
 
+## v2.0.5 - 2021-03-03
+- Improved error handling
+
 ## v2.0.4 - 2021-03-03
 - Improved error handling
 - Improved debugging
