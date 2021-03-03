@@ -138,7 +138,7 @@ See [Example Config](https://github.com/SeydX/homebridge-mercedesme/blob/master/
 * `cars.maxRange` - **not required** : Maximum distance after full tank load (for calculating range in % for battery state if API doesnt send the percentage)
 * `cars.polling` - **not required** : Time in seconds for polling Mercedes API (Default: 60s)
 * `cars.electricVehicle` - **not required** : Enable if your car is a electric vehicle (Default: false)
-* `cars.humiditySensor` - **not required** : Enable if want to show your remaining tank/battery load as a humidity sensor (Default: false)
+* `cars.humiditySensor` - **not required** : Enable if you want to show your remaining tank/battery load as a humidity sensor (Default: false)
 
 
 ## Supported clients
