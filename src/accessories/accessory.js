@@ -156,74 +156,85 @@ class CarAccessory {
 
   async getStates(serviceLock, serviceBattery, serviceDoor, serviceWindow, serviceLight, serviceHumidity){
     
+    let endpoint = 'unknown';
+    
+    //Battery/Humidity Sensor
+    
     try {
 
       if(!this.accessory.context.config.electricVehicle){
+        
+        //Fuel Status Endpoint
+        
+        endpoint = 'fuelstatus';
       
         let dataFuel = await this.me.fuelStatus(this.accessory.context.config.vin);
-        Logger.debug(dataFuel, this.accessory.displayName);
         
-        await this.handleBatteryFuel(dataFuel, serviceBattery, serviceHumidity);
+        this.handleBatteryFuel(dataFuel, serviceBattery, serviceHumidity);
       
       } else {
         
-        let dataElectro = await this.me.electroStatus(this.accessory.context.config.vin);
-        Logger.debug(dataElectro, this.accessory.displayName);
+        //Electric Vehicle Status Endpoint
         
-        await this.handleBatteryElectro(dataElectro, serviceBattery, serviceHumidity);
+        endpoint = 'electricvehicle';
+        
+        let dataElectro = await this.me.electroStatus(this.accessory.context.config.vin);
+        
+        this.handleBatteryElectro(dataElectro, serviceBattery, serviceHumidity);
         
       }
-      
-      let dataLock = await this.me.lockStatus(this.accessory.context.config.vin);
-      Logger.debug(dataLock, this.accessory.displayName);
-      
-      await this.handleLock(dataLock, serviceLock);
-      
-      let dataVehicle = await this.me.vehicleStatus(this.accessory.context.config.vin);
-      Logger.debug(dataVehicle, this.accessory.displayName);
-      
-      await this.handleDoors(dataVehicle, serviceDoor);
-      await this.handleWindows(dataVehicle, serviceWindow);
-      await this.handleLights(dataVehicle, serviceLight);
-      
-      /*let dataPayDrive = await this.me.payDrive(this.accessory.context.config.vin);
-      Logger.debug(dataPayDrive);*/
       
     } catch(err) {
       
-      let error;
-      
-      Logger.error('An error occured during polling API', this.accessory.displayName);
-      
-      if(err.response){
-        if(err.response.data){
-          error = err.response.data;
-        } else {
-          error = {
-            status: err.response.status,
-            message: err.response.statusText
-          };
-        }
-      }
-      
-      if(err.output)
-        error = err.output.payload || err.output;
-    
-      error = error || err;
-      
-      Logger.error(error);
-      
-    } finally {
-      
-      setTimeout( () => {
-        this.getStates(serviceLock, serviceBattery, serviceDoor, serviceWindow, serviceLight, serviceHumidity);
-      }, this.accessory.context.config.polling);
+      this.handleError(err, endpoint);
       
     }
     
+    //Lock Switch
+    
+    try {
+
+      //Vehicle Lock Status Endpoint
+      
+      endpoint = 'vehiclelockstatus';
+      
+      let dataLock = await this.me.lockStatus(this.accessory.context.config.vin);
+      
+      this.handleLock(dataLock, serviceLock);
+      
+    } catch(err) {
+      
+      this.handleError(err, endpoint);
+      
+    }
+    
+    //Contact Sensor/Lightbulb
+    
+    try {
+
+      //Vehicle Status Endpoint
+      
+      endpoint = 'vehiclestatus';
+      
+      let dataVehicle = await this.me.vehicleStatus(this.accessory.context.config.vin);
+      
+      this.handleDoors(dataVehicle, serviceDoor);
+      this.handleWindows(dataVehicle, serviceWindow);
+      this.handleLights(dataVehicle, serviceLight);
+      
+    } catch(err) {
+      
+      this.handleError(err, endpoint);
+      
+    }
+    
+    setTimeout( () => {
+      this.getStates(serviceLock, serviceBattery, serviceDoor, serviceWindow, serviceLight, serviceHumidity);
+    }, this.accessory.context.config.polling);
+    
   }
   
-  async handleBatteryFuel(dataFuel, service, serviceHumidity){
+  handleBatteryFuel(dataFuel, service, serviceHumidity){
     
     let batteryValue;
     let batteryState = 0;
@@ -276,7 +287,7 @@ class CarAccessory {
     
   }
   
-  async handleBatteryElectro(dataElectro, service, serviceHumidity){
+  handleBatteryElectro(dataElectro, service, serviceHumidity){
     
     let batteryValue;
     let batteryState = 0;
@@ -329,7 +340,7 @@ class CarAccessory {
     
   }
 
-  async handleLock(dataLock, service){
+  handleLock(dataLock, service){
     
     let state = 0;
     
@@ -367,7 +378,7 @@ class CarAccessory {
   
   }
   
-  async handleDoors(dataVehicle, service){
+  handleDoors(dataVehicle, service){
     
     let state = 0;
     
@@ -411,7 +422,7 @@ class CarAccessory {
   
   }
   
-  async handleWindows(dataVehicle, service){
+  handleWindows(dataVehicle, service){
     
     let state = 0;
     
@@ -455,7 +466,7 @@ class CarAccessory {
     
   }
   
-  async handleLights(dataVehicle, service){
+  handleLights(dataVehicle, service){
     
     let state = false;
     
@@ -493,6 +504,32 @@ class CarAccessory {
       
     return;
     
+  }
+  
+  handleError(err, endpoint){
+    
+    let error;
+      
+    Logger.debug('An error occurred during polling ' + endpoint + ' endpoint!', this.accessory.displayName);
+
+    if(err.response){
+      if(err.response.data){
+        error = err.response.data;
+      } else {
+        error = {
+          status: err.response.status,
+          message: err.response.statusText
+        };
+      }
+    }
+    
+    if(err.output)
+      error = err.output.payload || err.output;
+  
+    error = error || err;
+    
+    Logger.error(error, this.accessory.displayName);
+      
   }
 
 }
