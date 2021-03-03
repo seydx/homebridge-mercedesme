@@ -511,8 +511,11 @@ class CarAccessory {
     let error;
       
     Logger.debug('An error occurred during polling ' + endpoint + ' endpoint!', this.accessory.displayName);
-
+    
+    //axios error
     if(err.response){
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
       if(err.response.data){
         error = err.response.data;
       } else {
@@ -521,8 +524,15 @@ class CarAccessory {
           message: err.response.statusText
         };
       }
+    } else if(err.request){
+      // The request was made but no response was received
+      error = 'Cannot reach Mercedes API. Request was canceled with code ' + err.code;
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      error = err.message;
     }
     
+    //simple-oauth2 boom error
     if(err.output)
       error = err.output.payload || err.output;
   
