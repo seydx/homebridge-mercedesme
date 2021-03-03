@@ -87,7 +87,11 @@ class MercedesMe {
         expires_at: this._accessToken.token.expires_at
       });
     
-    } 
+    } else {
+      
+      Logger.debug('Access token NOT expired', this.accessory.displayName);
+      
+    }
     
     return;
     
@@ -101,7 +105,7 @@ class MercedesMe {
     
     if (this._accessToken) {
         
-      Logger.debug('Get <pending> ' + hiddenUrl, this.accessory.displayName);
+      Logger.debug('Checking access token for ' + endpoint, this.accessory.displayName);
       
       await this._refreshToken();
       
@@ -114,9 +118,13 @@ class MercedesMe {
         }
       };
       
+      Logger.debug('Get ' + endpoint + ' <pending> ' + hiddenUrl, this.accessory.displayName);
+      
       let response = await axios(config);
       
-      Logger.debug('Get <success> ' + hiddenUrl, this.accessory.displayName);
+      Logger.debug('Get ' + endpoint + ' <success> ' + hiddenUrl, this.accessory.displayName);
+      
+      Logger.debug('Get ' + endpoint + ' <response> ' + JSON.stringify(response.data), this.accessory.displayName);
       
       return response.data;
       
@@ -130,31 +138,41 @@ class MercedesMe {
 
   async vehicleStatus(vin) {
     
-    return this.apiCall(vin, 'vehiclestatus');
+    let response = await this.apiCall(vin, 'vehiclestatus');
+    
+    return response;
     
   }
   
   async fuelStatus(vin) {
     
-    return this.apiCall(vin, 'fuelstatus');
+    let response = await this.apiCall(vin, 'fuelstatus');
+    
+    return response;
     
   }
   
   async electroStatus(vin) {
     
-    return this.apiCall(vin, 'electricvehicle');
+    let response = await this.apiCall(vin, 'electricvehicle');
+    
+    return response;
     
   }
   
   async lockStatus(vin) {
     
-    return this.apiCall(vin, 'vehiclelockstatus');
+    let response = await this.apiCall(vin, 'vehiclelockstatus');
+    
+    return response;
     
   }
   
   async payDrive(vin) {
-   
-    return this.apiCall(vin, 'payasyoudrive');
+    
+    let response = await this.apiCall(vin, 'payasyoudrive');
+    
+    return response;
     
   }
   
