@@ -1,6 +1,10 @@
 # Changelog
 
 
+## v2.0.4 - 2021-03-03
+- Improved error handling
+- Improved debugging
+
 ## v2.0.3 - 2021-03-03
 - Added Humidity Sensor to show remaining tank/battery
 - Battery Bugfix
