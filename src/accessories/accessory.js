@@ -501,17 +501,17 @@ class CarAccessory {
     //axios error
     if(err.response){ 
 
-       if(error.response.status === 429){
+       if(err.response.status === 429){
          this.changePolling(30000);
          warn = 'The ' + endpoint + ' service received too many requests in a given amount of time. Polling is increased by 30 seconds.';
        }  
          
-       if(error.response.status === 500){
+       if(err.response.status === 500){
          this.changePolling(3 * 60 * 1000);
          warn = 'An error occurred on the server side, e.g. a required service did not provide a valid response. Next query will be made in 3 minutes.';
        }
          
-       if(error.response.status === 503 || error.response.status === 504){
+       if(err.response.status === 503 || err.response.status === 504){
          this.changePolling(5 * 60 * 1000);
          warn = 'The server is unable to service the request due to a temporary unavailability condition. Next query will be made in 5 minutes.';
        }  
