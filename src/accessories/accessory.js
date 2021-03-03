@@ -5,16 +5,16 @@ const MeApi = require('../helper/me.js');
 
 class CarAccessory {
 
-  constructor (api, accessory, accessories, storage) {
+  constructor (api, accessory) {
 
     this.api = api;
     this.accessory = accessory;
-    this.accessories = accessories;
-    this.storage = storage;
+    
+    this.polling = this.accessory.context.config.polling;
     
     this.me = new MeApi(this.accessory, this.api);
 
-    this.getService();
+    this.getServices();
 
   }
 
@@ -22,7 +22,7 @@ class CarAccessory {
   // Services
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
-  async getService () {
+  async getServices() { 
   
     let serviceLock = this.accessory.getService(this.api.hap.Service.LockMechanism);
     let serviceBattery = this.accessory.getService(this.api.hap.Service.BatteryService);
@@ -31,7 +31,7 @@ class CarAccessory {
     let serviceLight = this.accessory.getService(this.api.hap.Service.Lightbulb);
     let serviceHumidity = this.accessory.getService(this.api.hap.Service.HumiditySensor);
     
-    //Car Lock
+    //Lock
   
     if (!serviceLock) {
       Logger.info('Adding LockMechanism service', this.accessory.displayName);
@@ -65,9 +65,9 @@ class CarAccessory {
       .on('change', state => {
         if(state.oldValue !== state.newValue)
           Logger.info('Car trunk lock ' + (state.newValue ? 'secured' : 'unsecured'), this.accessory.displayName);
-      });
+      });   
       
-    //Battery/Humidity
+    //Battery
   
     if (!serviceBattery) {
       Logger.info('Adding Battery service', this.accessory.displayName);
@@ -80,6 +80,8 @@ class CarAccessory {
         if(state.oldValue !== state.newValue)
           Logger.info('Fuel tank/Battery changed from ' + state.oldValue + '%' + ' to ' + state.newValue + '%', this.accessory.displayName);
       });
+      
+    //Humidity
     
     if(this.accessory.context.config.humiditySensor) {
       if(!serviceHumidity){
@@ -93,7 +95,7 @@ class CarAccessory {
       }
     }
     
-    //Doors
+    //Door
     
     if (!serviceDoor) {
       Logger.info('Adding ContactSensor (doors) service', this.accessory.displayName);
@@ -107,7 +109,7 @@ class CarAccessory {
           Logger.info('Door(s)/Car trunk ' + (state.newValue ? 'opened' : 'closed'), this.accessory.displayName);
       });
     
-    //Windows
+    //Window
     
     if (!serviceWindow) {
       Logger.info('Adding ContactSensor (windows) service', this.accessory.displayName);
@@ -121,7 +123,7 @@ class CarAccessory {
           Logger.info('Window(s)/Sunroof ' + (state.newValue ? 'opened' : 'closed'), this.accessory.displayName);
       });
     
-    //Lights
+    //Light
     
     if (!serviceLight) {
       Logger.info('Adding LightBulb service', this.accessory.displayName);
@@ -149,7 +151,7 @@ class CarAccessory {
         callback();
       
       });
-
+      
     this.getStates(serviceLock, serviceBattery, serviceDoor, serviceWindow, serviceLight, serviceHumidity);
     
   }
@@ -165,21 +167,17 @@ class CarAccessory {
       if(!this.accessory.context.config.electricVehicle){
         
         //Fuel Status Endpoint
-        
         endpoint = 'fuelstatus';
-      
-        let dataFuel = await this.me.fuelStatus(this.accessory.context.config.vin);
         
+        let dataFuel = await this.me.fuelStatus(this.accessory.context.config.vin);
         this.handleBatteryFuel(dataFuel, serviceBattery, serviceHumidity);
       
       } else {
         
         //Electric Vehicle Status Endpoint
-        
         endpoint = 'electricvehicle';
         
         let dataElectro = await this.me.electroStatus(this.accessory.context.config.vin);
-        
         this.handleBatteryElectro(dataElectro, serviceBattery, serviceHumidity);
         
       }
@@ -195,11 +193,9 @@ class CarAccessory {
     try {
 
       //Vehicle Lock Status Endpoint
-      
       endpoint = 'vehiclelockstatus';
       
       let dataLock = await this.me.lockStatus(this.accessory.context.config.vin);
-      
       this.handleLock(dataLock, serviceLock);
       
     } catch(err) {
@@ -213,11 +209,9 @@ class CarAccessory {
     try {
 
       //Vehicle Status Endpoint
-      
       endpoint = 'vehiclestatus';
       
       let dataVehicle = await this.me.vehicleStatus(this.accessory.context.config.vin);
-      
       this.handleDoors(dataVehicle, serviceDoor);
       this.handleWindows(dataVehicle, serviceWindow);
       this.handleLights(dataVehicle, serviceLight);
@@ -230,7 +224,7 @@ class CarAccessory {
     
     setTimeout( () => {
       this.getStates(serviceLock, serviceBattery, serviceDoor, serviceWindow, serviceLight, serviceHumidity);
-    }, this.accessory.context.config.polling);
+    }, this.polling);
     
   }
   
@@ -242,8 +236,6 @@ class CarAccessory {
     if(dataFuel.length){
       
       for(const key in dataFuel){
-          
-        //tank fuel as battery
     
         if(dataFuel[key].tanklevelpercent){
           
@@ -295,8 +287,6 @@ class CarAccessory {
     if(dataElectro.length){
       
       for(const key in dataElectro){
-          
-        //electro battery
     
         if(dataElectro[key].soc){
           
@@ -386,8 +376,6 @@ class CarAccessory {
     
       for(const key in dataVehicle){
         
-        //door
-        
         if(dataVehicle[key].doorstatusfrontleft && (dataVehicle[key].doorstatusfrontleft.value === 'true')){
         
           state = 1;
@@ -430,8 +418,6 @@ class CarAccessory {
     
       for(const key in dataVehicle){
         
-        //window
-        
         if(dataVehicle[key].windowstatusfrontleft && dataVehicle[key].windowstatusfrontleft.value !== '2'){
         
           state = 1;
@@ -473,8 +459,6 @@ class CarAccessory {
     if(dataVehicle.length){
     
       for(const key in dataVehicle){
-        
-        //lightbulb
       
         if(dataVehicle[key].interiorLightsFront && (dataVehicle[key].interiorLightsFront.value === 'true')){
           
@@ -509,37 +493,89 @@ class CarAccessory {
   handleError(err, endpoint){
     
     let error;
-      
-    Logger.error('An error occurred during polling ' + endpoint + ' endpoint!', this.accessory.displayName);
+    let warn;
+    
+    if(this.pollingChanged)
+      this.resetPolling();
     
     //axios error
-    if(err.response){
+    if(err.response){ 
+
+       if(error.response.status === 429){
+         this.changePolling(30000);
+         warn = 'The ' + endpoint + ' service received too many requests in a given amount of time. Polling is increased by 30 seconds.';
+       }  
+         
+       if(error.response.status === 500){
+         this.changePolling(3 * 60 * 1000);
+         warn = 'An error occurred on the server side, e.g. a required service did not provide a valid response. Next query will be made in 3 minutes.';
+       }
+         
+       if(error.response.status === 503 || error.response.status === 504){
+         this.changePolling(5 * 60 * 1000);
+         warn = 'The server is unable to service the request due to a temporary unavailability condition. Next query will be made in 5 minutes.';
+       }  
+
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx
       if(err.response.data){
-        error = err.response.data;
+     
+        error = {
+          status: err.response.status,
+          message: err.response.statusText,
+          data: err.response.data
+        }
+     
       } else {
+     
         error = {
           status: err.response.status,
           message: err.response.statusText
         };
+     
       }
+
     } else if(err.request){
+  
       // The request was made but no response was received
-      error = 'Cannot reach Mercedes API. Request was canceled with code ' + err.code;
-    } else {
-      // Something happened in setting up the request that triggered an Error
-      error = err.message;
-    }
-    
-    //simple-oauth2 boom error
-    if(err.output)
+      this.changePolling(3 * 60 * 1000);
+     
+      error = {
+        code: err.code,
+        message: 'Cannot reach Mercedes API. No response received. Next query will be made in 3 minutes'
+      }
+  
+    } else if(err.output) {
+  
+      //simple-oauth2 boom error
       error = err.output.payload || err.output;
   
-    error = error || err;
+    } else {
+  
+      // Something happened in setting up the request that triggered an Error
+      error = err;
+  
+    }
     
-    Logger.error(error, this.accessory.displayName + ' ' + endpoint);
+    if(warn){
+      Logger.warn(warn, this.accessory.displayName + ' ' + endpoint);
+    } else {
+      error = error || err;
+      Logger.error(error, this.accessory.displayName + ' ' + endpoint);
+    }
       
+  }
+  
+  changePolling(timer){
+    this.pollingChanged = true;
+    this.polling = timer;
+    return;
+  }
+  
+  resetPolling(){
+    this.pollingChanged = false;
+    this.polling = this.accessory.context.config.polling;
+    return;
   }
 
 }
