@@ -364,15 +364,15 @@ class CarAccessory {
         
       }
       
-    }
-    
-    service
-      .getCharacteristic(this.api.hap.Characteristic.LockCurrentState)
-      .updateValue(state);
+      service
+        .getCharacteristic(this.api.hap.Characteristic.LockCurrentState)
+        .updateValue(state);
+        
+      service
+        .getCharacteristic(this.api.hap.Characteristic.LockTargetState)
+        .updateValue(state);
       
-    service
-      .getCharacteristic(this.api.hap.Characteristic.LockTargetState)
-      .updateValue(state);
+    }
       
     return;
   
@@ -410,13 +410,13 @@ class CarAccessory {
           
         }
         
-      }
+      }  
+      
+      service
+        .getCharacteristic(this.api.hap.Characteristic.ContactSensorState)
+        .updateValue(state);
       
     }
-    
-    service
-      .getCharacteristic(this.api.hap.Characteristic.ContactSensorState)
-      .updateValue(state);
       
     return;
   
@@ -454,13 +454,13 @@ class CarAccessory {
           
         }
         
-      }
+      } 
+      
+      service
+        .getCharacteristic(this.api.hap.Characteristic.ContactSensorState)
+        .updateValue(state);
       
     }
-    
-    service
-      .getCharacteristic(this.api.hap.Characteristic.ContactSensorState)
-      .updateValue(state);
       
     return;
     
@@ -496,11 +496,11 @@ class CarAccessory {
         
       }
       
+      service
+        .getCharacteristic(this.api.hap.Characteristic.On)
+        .updateValue(state);
+      
     }
-    
-    service
-      .getCharacteristic(this.api.hap.Characteristic.On)
-      .updateValue(state);
       
     return;
     
@@ -510,7 +510,7 @@ class CarAccessory {
     
     let error;
       
-    Logger.debug('An error occurred during polling ' + endpoint + ' endpoint!', this.accessory.displayName);
+    Logger.error('An error occurred during polling ' + endpoint + ' endpoint!', this.accessory.displayName);
     
     //axios error
     if(err.response){
@@ -538,7 +538,7 @@ class CarAccessory {
   
     error = error || err;
     
-    Logger.error(error, this.accessory.displayName);
+    Logger.error(error, this.accessory.displayName + ' ' + endpoint);
       
   }
 
