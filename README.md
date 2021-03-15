@@ -6,15 +6,6 @@
 
 # homebridge-mercedesme
 
-<img src="https://github.com/SeydX/homebridge-mercedesme/blob/master/images/homekit_mercedesme.gif" align="right" alt="Apple Home">
-
-This dynamic platform plugin allows control of **Mercedes Me** capable cars. At the moment it is only possible to get information like vehicle status, lock status, fuel status etc. If in the future the possibility of e.g. locking or unlocking the car becomes possible, this will also be implemented.
-
-Any system capable of running [Homebridge](https://github.com/nfarina/homebridge/) can be used to run **homebridge-mercedesme**. The only need is Mercedes Me capable car.
-
-
-## Status
-
 [![npm](https://img.shields.io/npm/v/homebridge-mercedesme.svg?style=flat-square)](https://www.npmjs.com/package/homebridge-mercedesme)
 [![npm](https://img.shields.io/npm/dt/homebridge-mercedesme.svg?style=flat-square)](https://www.npmjs.com/package/homebridge-mercedesme)
 [![GitHub last commit](https://img.shields.io/github/last-commit/SeydX/homebridge-mercedesme.svg?style=flat-square)](https://github.com/SeydX/homebridge-mercedesme)
@@ -26,6 +17,15 @@ Any system capable of running [Homebridge](https://github.com/nfarina/homebridge
 **Creating and maintaining Homebridge plugins consume a lot of time and effort, if you would like to share your appreciation, feel free to "Star" or donate.**
 
 [Click here](https://github.com/SeydX) to review more of my plugins.
+
+
+## Info
+
+<img src="https://github.com/SeydX/homebridge-mercedesme/blob/master/images/homekit_mercedesme.gif" align="right" alt="Apple Home">
+
+This dynamic platform plugin allows control of **Mercedes Me** capable cars. At the moment it is only possible to get information like vehicle status, lock status, fuel status etc. If in the future the possibility of e.g. locking or unlocking the car becomes possible, this will also be implemented.
+
+Any system capable of running [Homebridge](https://github.com/nfarina/homebridge/) can be used to run **homebridge-mercedesme**. The only need is Mercedes Me capable car.
 
 
 
