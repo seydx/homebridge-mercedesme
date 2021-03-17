@@ -1,6 +1,16 @@
 # Changelog
 
 
+## v2.1.1 - 2021-03-17
+- Added "hybridVehicle" and "tankBatteryType" as new options into config
+- Removed "humiditySensor" from config
+- Added ability to show tank load and battery (hybrid)
+- Several Bugfixes
+
+**NOTE**
+
+This update will remove your existing car from HomeKit and add a new one! Also the config (config ui x) changed! To show your tank load/battery state as a humidity or lightbulb accessory, pls take a loog at the new config! It is also possible to show tank load AND battery value as humidity and/or lightbulb accessory (if hybrid)
+
 ## v2.0.7 - 2021-03-03
 - Bugfix
 
