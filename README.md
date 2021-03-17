@@ -104,7 +104,7 @@ Please setup your config in Config UI X under ```Plugins > Homebridge Mercedes M
           "manufacturer": "Mercedes",
           "maxRange": 800,
           "polling": 60,
-          "humiditySensor": true
+          "tankBatteryType": "LIGHTBULB"
         },
         {
           "name": "Mercedes CLA250",
@@ -115,7 +115,20 @@ Please setup your config in Config UI X under ```Plugins > Homebridge Mercedes M
           "manufacturer": "Mercedes",
           "maxRange": 600,
           "polling": 120,
-          "electricVehicle": true
+          "electricVehicle": true,
+          "tankBatteryType": "HUMIDITY"
+        },
+        {
+          "name": "Mercedes B200",
+          "clientID": "1b851746-2x58-7y8r-6548-12ft58w159zu",
+          "clientSecret": "d896ct55-c85c-6363-9999-25iu6985mo10",
+          "vin": "WDD1234567N123456",
+          "model": "Mercedes B180",
+          "manufacturer": "Mercedes",
+          "maxRange": 600,
+          "polling": 120,
+          "hybridVehicle": true,
+          "tankBatteryType": "HUMIDITY"
         }
       ]
     }
@@ -137,7 +150,8 @@ See [Example Config](https://github.com/SeydX/homebridge-mercedesme/blob/master/
 * `cars.maxRange` - **not required** : Maximum distance after full tank load (for calculating range in % for battery state if API doesnt send the percentage)
 * `cars.polling` - **not required** : Time in seconds for polling Mercedes API (Default: 60s)
 * `cars.electricVehicle` - **not required** : Enable if your car is a electric vehicle (Default: false)
-* `cars.humiditySensor` - **not required** : Enable if you want to show your remaining tank/battery load as a humidity sensor (Default: false)
+* `cars.hybridVehicle` - **not required** : Enable if your car is a hybrid vehicle (Default: false)
+* `cars.tankBatteryType` - **not required** : Choose between several accessory types (HUMIDITY | LIGHTBULB) to show the remaining tank load and/or electric vehicle battery value in percent
 
 
 ## Supported clients
