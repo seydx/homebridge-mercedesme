@@ -1,7 +1,6 @@
 const { HomebridgePluginUiServer } = require('@homebridge/plugin-ui-utils');
 const { RequestError } = require('@homebridge/plugin-ui-utils');
 
-const axios = require('axios');
 const { AuthorizationCode } = require('simple-oauth2');
 
 class UiServer extends HomebridgePluginUiServer {

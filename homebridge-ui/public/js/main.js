@@ -1,3 +1,5 @@
+/*global $, window, location, homebridge, schema*/
+
 const GLOBAL = {
   pluginConfig: false,
   customSchema: false,
@@ -5,8 +7,6 @@ const GLOBAL = {
   currentContent: false,
   previousContent: [],
 };
-
-const TIMEOUT = (ms) => new Promise((res) => setTimeout(res, ms)); 
 
 function toggleContent(){
 
@@ -204,6 +204,8 @@ async function addNewDeviceToConfig(car){
       clientID: car.clientID,
       clientSecret: car.clientSecret,
       vin: car.vin,
+      electricVehicle: false,
+      tankBatteryType: 'HUMIDITY',
       token: {
         access_token: car.token.access_token,
         refresh_token: car.token.refresh_token,
@@ -211,7 +213,7 @@ async function addNewDeviceToConfig(car){
         expires_in: car.token.expires_in,
         expires_at: car.token.expires_at
       }
-    }
+    };
     
     for(const carr in GLOBAL.pluginConfig[0].cars){
       if(GLOBAL.pluginConfig[0].cars[carr].name === car.name){
@@ -222,7 +224,7 @@ async function addNewDeviceToConfig(car){
           token_type: car.token.token_type,
           expires_in: car.token.expires_in,
           expires_at: car.token.expires_at
-        }
+        };
         homebridge.toast.success(car.name + ' refreshed!', 'Success');
       }
     }
@@ -389,11 +391,9 @@ $('#startAuth').on('click', async () => {
   
     homebridge.showSpinner();
     
-    let autherization_code;
-    
     GLOBAL.carOptions.authorizationUri = await homebridge.request('/authCode', GLOBAL.carOptions);
     
-    const win = window.open(GLOBAL.carOptions.authorizationUri, "windowname1", 'width=800, height=600');
+    const win = window.open(GLOBAL.carOptions.authorizationUri, 'windowname1', 'width=800, height=600');
     
     const pollTimer = window.setInterval(function() { 
       if(win.document.URL.includes('?code=')){

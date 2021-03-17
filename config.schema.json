@@ -68,12 +68,31 @@
           "electricVehicle": {
             "title": "Electric Vehicle",
             "type": "boolean",
-            "description": "Check if your car is a electric vehicle."
+            "description": "Check if your car is an electric vehicle."
           },
-          "humiditySensor": {
-            "title": "Humidity Sensor",
+          "hybridVehicle": {
+            "title": "Hybrid Vehicle",
             "type": "boolean",
-            "description": "Enable this if you want to show remaining tank load in percent as a humidity sensor."
+            "description": "Check if your car is a hybrid vehicle."
+          },
+          "tankBatteryType": {
+            "title": "Tank load/Battery Accessory Type",
+            "type": "string",
+            "description": "You can choose between several accessory types for your tank load and/or electric vehicle battery. If 'none' is choosen, only the tank load (for non electric vehicle) or battery level (electric vehicle) will be shown as a battery service within the accessory.",
+            "oneOf": [
+              {
+                "title": "Humidity Sensor",
+                "enum": [
+                  "HUMIDITY"
+                ]
+              },
+              {
+                "title": "Lighhtbulb",
+                "enum": [
+                  "LIGHTBULB"
+                ]
+              }
+            ]
           },
           "polling": {
             "title": "Polling",
@@ -132,7 +151,8 @@
         "cars[].clientSecret",
         "cars[].vin",
         "cars[].electricVehicle",
-        "cars[].humiditySensor",
+        "cars[].hybridVehicle",
+        "cars[].tankBatteryType",
         {
           "key": "cars[]",
           "type": "section",

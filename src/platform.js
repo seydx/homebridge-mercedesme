@@ -69,6 +69,9 @@ function MercedesPlatform (log, config, api) {
      
         } else {
 
+          car.electricVehicle = car.hybridVehicle
+            ? false
+            : car.electricVehicle;
           car.polling = Number.isInteger(car.polling) 
             ?  car.polling < 60 
               ? 60 * 1000 
