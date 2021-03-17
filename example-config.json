@@ -1,37 +1,46 @@
 {
   "bridge": {
-    ...
+      ...
   },
-  "accessories": [
-    ...
-  ],
   "platforms": [
     {
       "platform": "MercedesPlatform",
-      "polling": 60,
+      "debug": false,
       "cars": [
         {
-          "name": "Mercedes",
-          "clientID": "9a678895-358c-4d5d-8611-14481bac44f5",
-          "clientSecret": "dc8aee3f-b97e-4757-8141-53c9597f040f",
-          "vin": "WDD1183461N002980",
+          "name": "Mercedes A200",
+          "clientID": "1b851746-2x58-7y8r-6548-12ft58w159zu",
+          "clientSecret": "d896ct55-c85c-6363-9999-25iu6985mo10",
+          "vin": "WDD1234567N123456",
+          "model": "Mercedes A200",
           "manufacturer": "Mercedes",
-          "model": "A200",
-          "maxRange": 550,
+          "maxRange": 800,
           "polling": 60,
-          "electricVehicle": false,
-          "humiditySensor": true
+          "tankBatteryType": "LIGHTBULB"
         },
         {
-          "name": "Mercedes",
-          "clientID": "9a678895-358c-4d5d-8611-14481bac44f5",
-          "clientSecret": "dc8aee3f-b97e-4757-8141-53c9597f040f",
-          "vin": "WDD1183461N002980",
+          "name": "Mercedes CLA250",
+          "clientID": "1b851746-2x58-7y8r-6548-12ft58w159zu",
+          "clientSecret": "d896ct55-c85c-6363-9999-25iu6985mo10",
+          "vin": "WDD1234567N123456",
+          "model": "Mercedes B180",
           "manufacturer": "Mercedes",
-          "model": "B200",
-          "maxRange": 800,
+          "maxRange": 600,
           "polling": 120,
-          "electricVehicle": true
+          "electricVehicle": true,
+          "tankBatteryType": "HUMIDITY"
+        },
+        {
+          "name": "Mercedes B200",
+          "clientID": "1b851746-2x58-7y8r-6548-12ft58w159zu",
+          "clientSecret": "d896ct55-c85c-6363-9999-25iu6985mo10",
+          "vin": "WDD1234567N123456",
+          "model": "Mercedes B180",
+          "manufacturer": "Mercedes",
+          "maxRange": 600,
+          "polling": 120,
+          "hybridVehicle": true,
+          "tankBatteryType": "HUMIDITY"
         }
       ]
     }
