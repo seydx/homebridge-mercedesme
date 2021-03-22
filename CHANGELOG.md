@@ -1,6 +1,10 @@
 # Changelog
 
 
+## v2.1.2 - 2021-03-22
+- Added funding
+- Bump deps
+
 ## v2.1.1 - 2021-03-17
 - Added "hybridVehicle" and "tankBatteryType" as new options into config
 - Removed "humiditySensor" from config
