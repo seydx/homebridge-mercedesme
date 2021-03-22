@@ -46,7 +46,7 @@
     "homebridge": "^1.1.6"
   },
   "dependencies": {
-    "@homebridge/plugin-ui-utils": "^0.0.18",
+    "@homebridge/plugin-ui-utils": "^0.0.19",
     "axios": "^0.21.1",
     "fs-extra": "^9.1.0",
     "simple-oauth2": "^4.2.0"
