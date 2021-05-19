@@ -7,36 +7,30 @@ const packageFile = require('../package.json');
 const carAccessory = require('./accessories/accessory.js');
 
 const PLUGIN_NAME = 'homebridge-mercedesme';
-const PLATFORM_NAME  = 'MercedesPlatform';
+const PLATFORM_NAME = 'MercedesPlatform';
 
 var Accessory, UUIDGen;
 
 module.exports = function (homebridge) {
-
   Accessory = homebridge.platformAccessory;
   UUIDGen = homebridge.hap.uuid;
-  
-  return MercedesPlatform;
 
+  return MercedesPlatform;
 };
 
-function MercedesPlatform (log, config, api) {
-  
-  if (!api||!config) 
-    return;
-    
-  Logger.init(log, config.debug); 
-  
+function MercedesPlatform(log, config, api) {
+  if (!api || !config) return;
+
+  Logger.init(log, config.debug);
+
   this.api = api;
   this.accessories = [];
   this.config = config;
-  
+
   this.devices = new Map();
 
-  if(this.config.cars && this.config.cars.length) {
-  
-    this.config.cars.forEach(car => {
-    
+  if (this.config.cars && this.config.cars.length) {
+    this.config.cars.forEach((car) => {
       let error = false;
 
       if (!car.name) {
@@ -60,147 +54,107 @@ function MercedesPlatform (log, config, api) {
       }
 
       if (!error) {
-      
         const uuid = UUIDGen.generate(car.name);
-        
-        if (this.devices.has(uuid)) {
-     
-          Logger.warn('Multiple cars are configured with this name. Duplicate cars will be skipped.', car.name);
-     
-        } else {
 
-          car.electricVehicle = car.hybridVehicle
-            ? false
-            : car.electricVehicle;
-          car.polling = Number.isInteger(car.polling) 
-            ?  car.polling < 60 
-              ? 60 * 1000 
-              : car.polling * 1000
-            :  60 * 1000;
-          
+        if (this.devices.has(uuid)) {
+          Logger.warn('Multiple cars are configured with this name. Duplicate cars will be skipped.', car.name);
+        } else {
+          car.electricVehicle = car.hybridVehicle ? false : car.electricVehicle;
+          car.polling = Number.isInteger(car.polling) ? (car.polling < 60 ? 60 * 1000 : car.polling * 1000) : 60 * 1000;
+
           this.devices.set(uuid, car);
-          
         }
-    
       }
-      
     });
-    
   }
-  
+
   this.api.on('didFinishLaunching', this.didFinishLaunching.bind(this));
 }
 
 MercedesPlatform.prototype = {
-
-  didFinishLaunching: async function(){
-
+  didFinishLaunching: async function () {
     for (const entry of this.devices.entries()) {
-    
       let uuid = entry[0];
       let device = entry[1];
-      
-      const cachedAccessory = this.accessories.find(curAcc => curAcc.UUID === uuid);
-      
+
+      const cachedAccessory = this.accessories.find((curAcc) => curAcc.UUID === uuid);
+
       if (!cachedAccessory) {
-      
         const accessory = new Accessory(device.name, uuid);
 
-        Logger.info('Configuring accessory...', accessory.displayName); 
-        
+        Logger.info('Configuring accessory...', accessory.displayName);
+
         this.setupAccessory(accessory, device);
-        
+
         Logger.info('Configured!', accessory.displayName);
-        
+
         this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
-        
+
         this.accessories.push(accessory);
-        
       }
-      
     }
 
-    this.accessories.forEach(accessory => {
-    
+    this.accessories.forEach((accessory) => {
       const device = this.devices.get(accessory.UUID);
-      
-      try {
-      
-        if (!device)
-          this.removeAccessory(accessory);
-    
-      } catch(err) {
 
+      try {
+        if (!device) this.removeAccessory(accessory);
+      } catch (err) {
         Logger.info('It looks like the device has already been removed. Skip removing.');
         Logger.debug(err);
-     
       }
-      
     });
-  
   },
-  
-  setupAccessory: async function(accessory, device){
-    
+
+  setupAccessory: async function (accessory, device) {
     accessory.on('identify', () => {
       Logger.info('Identify requested.', accessory.displayName);
     });
-    
-    const manufacturer = device.manufacturer 
-      ? device.manufacturer 
-      : 'Mercedes';
-      
-    const model = device.model
-      ? device.model 
-      : 'Car';
-    
+
+    const manufacturer = device.manufacturer ? device.manufacturer : 'Mercedes';
+
+    const model = device.model ? device.model : 'Car';
+
     const serialNumber = device.vin;
-    
+
     const AccessoryInformation = accessory.getService(this.api.hap.Service.AccessoryInformation);
-    
-    AccessoryInformation
-      .setCharacteristic(this.api.hap.Characteristic.Manufacturer, manufacturer)
+
+    AccessoryInformation.setCharacteristic(this.api.hap.Characteristic.Manufacturer, manufacturer)
       .setCharacteristic(this.api.hap.Characteristic.Model, model)
       .setCharacteristic(this.api.hap.Characteristic.SerialNumber, serialNumber)
       .setCharacteristic(this.api.hap.Characteristic.FirmwareRevision, packageFile.version);
-    
-    accessory.context.config = device;
-    
-    new carAccessory(this.api, accessory);
-    
-    return;
 
+    accessory.context.config = device;
+
+    new carAccessory(this.api, accessory);
+
+    return;
   },
 
-  configureAccessory: async function(accessory){
-
+  configureAccessory: async function (accessory) {
     const device = this.devices.get(accessory.UUID);
 
-    if (device){
-      Logger.info('Configuring accessory...', accessory.displayName);                                                                                            
+    if (device) {
+      Logger.info('Configuring accessory...', accessory.displayName);
       this.setupAccessory(accessory, device);
     }
-    
+
     this.accessories.push(accessory);
-  
   },
-  
-  removeAccessory: function(accessory) {
-  
+
+  removeAccessory: function (accessory) {
     Logger.info('Removing accessory...', accessory.displayName);
-    
-    let accessories = this.accessories.map( cachedAccessory => {
-      if(cachedAccessory.displayName !== accessory.displayName){
+
+    let accessories = this.accessories.map((cachedAccessory) => {
+      if (cachedAccessory.displayName !== accessory.displayName) {
         return cachedAccessory;
       }
     });
-    
+
     this.accessories = accessories.filter(function (el) {
       return el != null;
     });
 
     this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
-  
-  }
-
+  },
 };
