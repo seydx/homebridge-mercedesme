@@ -1,6 +1,5 @@
 # Changelog
 
-
 ## v2.1.2 - 2021-03-22
 - Added funding
 - Bump deps
