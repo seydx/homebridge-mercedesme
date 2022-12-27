@@ -26,14 +26,14 @@ class UiServer extends HomebridgePluginUiServer {
         secret: config.clientSecret
       },
       auth: {
-        tokenHost: 'https://id.mercedes-benz.com',
-        tokenPath: '/as/token.oauth2',
-        authorizePath: '/as/authorization.oauth2'
+        tokenHost: 'https://ssoalpha.dvb.corpinter.net',
+        tokenPath: '/v1/token',
+        authorizePath: '/v1/auth'
       }
     };
     
     const redirect_uri = config.origin;
-    const scopes = 'mb:vehicle:mbdata:vehiclestatus mb:vehicle:mbdata:fuelstatus mb:vehicle:mbdata:evstatus mb:vehicle:mbdata:vehiclelock mb:vehicle:mbdata:payasyoudrive offline_access';
+    const scopes = 'openid offline_access mb:vehicle:mbdata:vehiclestatus mb:vehicle:mbdata:fuelstatus mb:vehicle:mbdata:evstatus mb:vehicle:mbdata:vehiclelock mb:vehicle:mbdata:payasyoudrive';
 
     this.client = new AuthorizationCode(params);
     
@@ -53,7 +53,7 @@ class UiServer extends HomebridgePluginUiServer {
     const options = {
       code,
       redirect_uri: config.origin,
-      scope: 'mb:vehicle:mbdata:vehiclestatus mb:vehicle:mbdata:fuelstatus mb:vehicle:mbdata:evstatus mb:vehicle:mbdata:vehiclelock mb:vehicle:mbdata:payasyoudrive offline_access'
+      scope: 'openid offline_access mb:vehicle:mbdata:vehiclestatus mb:vehicle:mbdata:fuelstatus mb:vehicle:mbdata:evstatus mb:vehicle:mbdata:vehiclelock mb:vehicle:mbdata:payasyoudrive'
     };
     
     try {

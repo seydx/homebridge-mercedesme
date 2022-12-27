@@ -19,9 +19,9 @@ class MercedesMe {
         secret: this.accessory.context.config.clientSecret,
       },
       auth: {
-        tokenHost: 'https://id.mercedes-benz.com',
-        tokenPath: '/as/token.oauth2',
-        authorizePath: '/as/authorization.oauth2',
+        tokenHost: 'https://ssoalpha.dvb.corpinter.net',
+        tokenPath: '/v1/token',
+        authorizePath: '/v1/auth'
       },
     };
 
@@ -61,8 +61,7 @@ class MercedesMe {
       Logger.info('Access Token expired! Refreshing token...', this.accessory.displayName);
 
       const refreshParams = {
-        scope:
-          'mb:vehicle:mbdata:vehiclestatus mb:vehicle:mbdata:fuelstatus mb:vehicle:mbdata:evstatus mb:vehicle:mbdata:vehiclelock mb:vehicle:mbdata:payasyoudrive offline_access',
+        scope: 'openid offline_access mb:vehicle:mbdata:vehiclestatus mb:vehicle:mbdata:fuelstatus mb:vehicle:mbdata:evstatus mb:vehicle:mbdata:vehiclelock mb:vehicle:mbdata:payasyoudrive'
       };
 
       this._accessToken = await this._accessToken.refresh(refreshParams);
