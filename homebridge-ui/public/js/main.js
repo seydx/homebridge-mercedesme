@@ -398,7 +398,7 @@ $('#startAuth').on('click', async () => {
     const pollTimer = window.setInterval(function() { 
       if(win.document.URL.includes('?code=')){
         window.clearInterval(pollTimer);
-        GLOBAL.carOptions.autherization_code = win.document.URL.split('?code=')[1];
+        GLOBAL.carOptions.autherization_code = win.document.URL.split('?code=')[1].split('&')[0];
         $('#authCode').val(GLOBAL.carOptions.autherization_code);
         win.close();
         homebridge.hideSpinner();
